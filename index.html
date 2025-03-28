@@ -313,7 +313,7 @@ let items = [];
 const datasetSelector = document.getElementById('datasetSelector');
 
 function loadData(dataset = 'garments') {
-  fetch(`https://k0gasa.github.io/items/${dataset}.json`)
+  fetch(`https://k0gasa.github.io/locations/${dataset}.json`)
     .then(response => response.json())
     .then(data => {
       items = data.filter(item => item && item.id); // Filter out null/empty items
@@ -433,7 +433,7 @@ function renderTable(itemsToRender) {
             ${displayType}
           </span>
         </td>
-        <td style="text-align: center;"> {/* <<< Changed Cell Content */}
+        <td style="text-align: center;">
           ${displayCount}
         </td>
       </tr>
