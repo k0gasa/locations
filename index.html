@@ -1,3 +1,5 @@
+--- START OF FILE index.html ---
+
 <html><head><base href="." target="_blank" />
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -195,6 +197,40 @@ body {
   backdrop-filter: blur(4px);
 }
 
+/* Style for clickable header */
+.items-table th.sortable {
+    cursor: pointer;
+    user-select: none; /* Prevent text selection on click */
+}
+.items-table th.sortable:hover {
+    color: var(--text-primary); /* Highlight on hover */
+}
+
+/* Sort indicator styles */
+.sort-indicator {
+    display: inline-block;
+    width: 0;
+    height: 0;
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+    margin-left: 6px;
+    vertical-align: middle;
+    opacity: 0.6;
+    transition: opacity 0.2s ease;
+}
+.sortable:hover .sort-indicator {
+    opacity: 1;
+}
+.sort-asc .sort-indicator {
+    border-bottom: 5px solid var(--text-primary); /* Arrow up */
+    opacity: 1;
+}
+.sort-desc .sort-indicator {
+    border-top: 5px solid var(--text-primary); /* Arrow down */
+    opacity: 1;
+}
+
+
 .items-table tr:last-child td {
   border-bottom: none;
 }
@@ -267,8 +303,6 @@ body {
   cursor: not-allowed;
 }
 
-/* Removed .copy-button and .copy-button:hover styles */
-
 </style>
 </head>
 <body>
@@ -294,7 +328,10 @@ body {
           <th>ID</th>
           <th>Name</th>
           <th>Type</th>
-          <th>Count</th>
+          <!-- Make header clickable and add indicator span -->
+          <th id="countHeader" class="sortable" onclick="sortByCount()">
+            Count <span class="sort-indicator"></span>
+          </th>
         </tr>
       </thead>
       <tbody id="itemsContainer">
@@ -307,39 +344,46 @@ body {
 </div>
 
 <script>
-// Removed copyToClipboard function as it's no longer needed
-
 let items = [];
 const datasetSelector = document.getElementById('datasetSelector');
+const itemsContainer = document.getElementById('itemsContainer');
+const searchInput = document.getElementById('searchInput');
+const paginationContainer = document.getElementById('pagination');
+const typeFiltersContainer = document.getElementById('typeFilters');
+const countHeader = document.getElementById('countHeader'); // Get header element
+
+const ITEMS_PER_PAGE = 4;
+let currentPage = 1;
+let activeType = 'all';
+let filteredItems = [];
+
+// --- Sorting State ---
+let sortDirection = null; // null, 'asc', 'desc'
+
+const garmentTypes = [
+  'all', 'torso', 'hair', 'legs', 'face', 'feet', 'other'
+];
+const furnitureTypes = ['all'];
 
 function loadData(dataset = 'garments') {
   fetch(`https://k0gasa.github.io/locations/${dataset}.json`)
     .then(response => response.json())
     .then(data => {
-      items = data.filter(item => item && item.id); // Filter out null/empty items
-      filteredItems = [...items];
-      updateTypeFilters(dataset);
-      renderTable(items);
+      // Filter out null/empty items AND items with count 0 initially
+      items = data.filter(item => item && item.id && item.count !== 0);
+      filteredItems = [...items]; // Initialize filteredItems
+      resetSort(); // Reset sort when loading new data
+      updateTypeFilters(dataset); // Update filters (this will call updateFilteredItems -> renderTable)
     })
     .catch(error => {
       console.error('Error loading items:', error);
+      items = []; // Clear items on error
+      filteredItems = [];
+      itemsContainer.innerHTML = '<tr><td colspan="5">Error loading data.</td></tr>'; // Show error in table
+      paginationContainer.innerHTML = '';
+      typeFiltersContainer.innerHTML = '';
     });
 }
-
-const itemsContainer = document.getElementById('itemsContainer');
-const searchInput = document.getElementById('searchInput');
-const paginationContainer = document.getElementById('pagination');
-const typeFiltersContainer = document.getElementById('typeFilters');
-
-const ITEMS_PER_PAGE = 4;
-let currentPage = 1;
-let activeType = 'all';
-
-const garmentTypes = [
-  'all', 'torso', 'hair', 'legs', 'face', 'feet', 'other'
-];
-
-const furnitureTypes = ['all'];
 
 function updateTypeFilters(dataset) {
   const types = dataset === 'garments' ? garmentTypes : furnitureTypes;
@@ -356,8 +400,8 @@ function updateTypeFilters(dataset) {
     </button>
   `).join('');
 
-  // Force container width to be consistent
-  document.querySelector('.container').style.width = '100%';
+  // Initial filter application after setting up buttons
+  updateFilteredItems();
 }
 
 function filterByType(type) {
@@ -365,52 +409,106 @@ function filterByType(type) {
   document.querySelectorAll('.type-filter').forEach(btn => {
     btn.classList.toggle('active', btn.dataset.type === type);
   });
-  currentPage = 1;
+  currentPage = 1; // Reset page when type filter changes
+  resetSort();     // Reset sort when type filter changes
   updateFilteredItems();
 }
-
-let filteredItems = [...items];
 
 function updateFilteredItems() {
   const searchTerm = searchInput.value.toLowerCase();
   const dataset = datasetSelector.value;
 
+  // Start with the base 'items' list (which already excludes count 0)
   filteredItems = items.filter(item => {
-    if (!item || !item.id) return false;
+    // Basic validity check (redundant due to initial load filter, but safe)
+    if (!item || !item.id || item.count === 0) return false;
 
+    // Check search term
     const matchesSearch = (item.title?.toLowerCase() || '').includes(searchTerm) ||
                          (item.id?.toString() || '').includes(searchTerm);
+    if (!matchesSearch) return false;
 
-    // Only apply type filtering for garments
+    // Only apply type filtering for garments dataset
     if (dataset === 'garments') {
-      const mainTypes = ['torso', 'hair', 'legs', 'face', 'feet']; // Removed 'hands'
+      const mainTypes = ['torso', 'hair', 'legs', 'face', 'feet'];
       const itemType = (item.type || '').toLowerCase();
       const isOtherType = !mainTypes.includes(itemType);
       const matchesType = activeType === 'all' ||
                          (activeType === 'other' ? isOtherType :
                          itemType === activeType);
-      return matchesSearch && matchesType;
+      return matchesType; // Already checked search and count
     }
 
-    // For furniture, just use search filtering
-    return matchesSearch;
+    // For other datasets (like furniture), just search and count filter apply
+    return true;
   });
 
-  currentPage = 1;
-  renderTable(filteredItems);
+  // Apply current sort if needed (important after filtering)
+  applySort();
+
+  currentPage = 1; // Reset page number whenever filters change
+  renderTable(); // Pass no arguments, uses the global filteredItems
 }
 
-function renderTable(itemsToRender) {
+// --- Sorting Functions ---
+
+function resetSort() {
+    sortDirection = null;
+    updateSortIndicator();
+}
+
+function sortByCount() {
+    if (sortDirection === 'asc') {
+        sortDirection = 'desc';
+    } else {
+        // If 'desc' or null, set to 'asc'
+        sortDirection = 'asc';
+    }
+    applySort(); // Sort the current filtered list
+    currentPage = 1; // Go back to first page after sorting
+    renderTable(); // Re-render the table with sorted data
+}
+
+function applySort() {
+    if (sortDirection) {
+        filteredItems.sort((a, b) => {
+            const countA = a.count || 0; // Handle potential null/undefined safely
+            const countB = b.count || 0;
+            if (sortDirection === 'asc') {
+                return countA - countB;
+            } else { // 'desc'
+                return countB - countA;
+            }
+        });
+    }
+    // No else needed: if sortDirection is null, don't sort.
+    updateSortIndicator(); // Update visual indicator after sorting
+}
+
+
+function updateSortIndicator() {
+    countHeader.classList.remove('sort-asc', 'sort-desc'); // Remove existing classes
+    if (sortDirection === 'asc') {
+        countHeader.classList.add('sort-asc');
+    } else if (sortDirection === 'desc') {
+        countHeader.classList.add('sort-desc');
+    }
+    // If sortDirection is null, no class is added
+}
+
+// --- Rendering Functions ---
+
+function renderTable() { // No argument needed, uses global filteredItems
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
   const endIndex = startIndex + ITEMS_PER_PAGE;
-  const paginatedItems = itemsToRender.slice(startIndex, endIndex);
+  const paginatedItems = filteredItems.slice(startIndex, endIndex); // Paginate the filtered (and potentially sorted) list
   const dataset = datasetSelector.value;
 
   const createTableRow = (item) => {
-    // Removed unityLink variable
     const itemType = dataset === 'garments' ? item.type : item.triggerType;
     const displayType = (!itemType || itemType === '' || itemType === 'null') ? 'NULL' : itemType;
-    const displayCount = item.count !== undefined && item.count !== null ? item.count : 'N/A'; // Get count or show 'N/A'
+    // No need for N/A check here, as 0 counts are filtered out, and null/undefined are handled in sorting
+    const displayCount = item.count;
 
     return `
       <tr>
@@ -440,12 +538,21 @@ function renderTable(itemsToRender) {
     `;
   };
 
-  itemsContainer.innerHTML = paginatedItems.map(createTableRow).join('');
-  renderPagination(itemsToRender.length);
+  if (paginatedItems.length === 0) {
+      itemsContainer.innerHTML = `<tr><td colspan="5" style="text-align: center; padding: 2rem;">No items match the current filters.</td></tr>`;
+  } else {
+      itemsContainer.innerHTML = paginatedItems.map(createTableRow).join('');
+  }
+  renderPagination(filteredItems.length); // Use total filtered items for pagination calculation
 }
 
 function renderPagination(totalItems) {
   const totalPages = Math.ceil(totalItems / ITEMS_PER_PAGE);
+
+  if (totalPages <= 1) {
+      paginationContainer.innerHTML = ''; // Hide pagination if only one page or less
+      return;
+  }
 
   let paginationHTML = `
     <button class="edge-button" onclick="changePage(1)" ${currentPage === 1 ? 'disabled' : ''}>
@@ -453,27 +560,40 @@ function renderPagination(totalItems) {
     </button>
   `;
 
-  if (currentPage > 1) {
-    paginationHTML += `
-      <button onclick="changePage(${currentPage - 1})">
-        ${currentPage - 1}
-      </button>
-    `;
-  }
-
+  // Previous page button
   paginationHTML += `
-    <button class="active">
-      ${currentPage}
+    <button onclick="changePage(${currentPage - 1})" ${currentPage === 1 ? 'disabled' : ''}>
+      < Prev
     </button>
   `;
 
-  if (currentPage < totalPages) {
+  // Page numbers (simplified for brevity - could add logic for ellipsis)
+  let startPage = Math.max(1, currentPage - 1);
+  let endPage = Math.min(totalPages, currentPage + 1);
+
+  if (startPage > 1) {
+     paginationHTML += `<button disabled>...</button>`;
+  }
+
+  for (let i = startPage; i <= endPage; i++) {
     paginationHTML += `
-      <button onclick="changePage(${currentPage + 1})">
-        ${currentPage + 1}
+      <button class="${i === currentPage ? 'active' : ''}" onclick="changePage(${i})">
+        ${i}
       </button>
     `;
   }
+
+   if (endPage < totalPages) {
+     paginationHTML += `<button disabled>...</button>`;
+  }
+
+  // Next page button
+  paginationHTML += `
+    <button onclick="changePage(${currentPage + 1})" ${currentPage === totalPages ? 'disabled' : ''}>
+      Next >
+    </button>
+  `;
+
 
   paginationHTML += `
     <button class="edge-button" onclick="changePage(${totalPages})" ${currentPage === totalPages ? 'disabled' : ''}>
@@ -489,15 +609,19 @@ function changePage(page) {
   if (page < 1 || page > totalPages) return;
 
   currentPage = page;
-  renderTable(filteredItems);
+  renderTable(); // Re-render the current page
 }
 
-searchInput.addEventListener('input', updateFilteredItems);
+// --- Event Listeners ---
+searchInput.addEventListener('input', () => {
+    resetSort(); // Reset sort when search term changes
+    updateFilteredItems();
+});
 datasetSelector.addEventListener('change', (e) => {
-  loadData(e.target.value);
+  loadData(e.target.value); // This calls loadData, which resets sort and calls updateFilteredItems
 });
 
-// Initial load
+// --- Initial Load ---
 loadData('garments');
 </script>
 </body></html>
