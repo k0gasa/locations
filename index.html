@@ -1,4 +1,6 @@
-<html><head><base href="." target="_blank" />
+<!DOCTYPE html>
+<html>
+<head><base href="." target="_blank" />
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>WZW Items</title>
@@ -330,6 +332,10 @@ body {
           <th id="countHeader" class="sortable" onclick="sortByCount()">
             Count <span class="sort-indicator"></span>
           </th>
+          <!-- NEW: MP Price Header -->
+          <th id="priceHeader" class="sortable" onclick="sortByPrice()">
+            MP Price <span class="sort-indicator"></span>
+          </th>
         </tr>
       </thead>
       <tbody id="itemsContainer">
@@ -348,26 +354,36 @@ const itemsContainer = document.getElementById('itemsContainer');
 const searchInput = document.getElementById('searchInput');
 const paginationContainer = document.getElementById('pagination');
 const typeFiltersContainer = document.getElementById('typeFilters');
-const countHeader = document.getElementById('countHeader'); // Get header element
+const countHeader = document.getElementById('countHeader'); // Get count header element
+const priceHeader = document.getElementById('priceHeader'); // Get price header element
 
-const ITEMS_PER_PAGE = 4;
+const ITEMS_PER_PAGE = 4; // Increased for better visibility with more columns
 let currentPage = 1;
 let activeType = 'all';
 let filteredItems = [];
 
 // --- Sorting State ---
-let sortDirection = null; // null, 'asc', 'desc'
+let sortColumn = null; // Which column to sort by: 'count', 'price', or null
+let sortDirection = 'asc'; // 'asc' or 'desc'
 
 const garmentTypes = [
   'all', 'torso', 'hair', 'legs', 'face', 'feet', 'other'
 ];
-const furnitureTypes = ['all'];
+const furnitureTypes = ['all']; // Currently unused, add types if furniture data has them
 
 function loadData(dataset = 'garments') {
+  // Adjust the URL based on where your updated JSON is hosted
+  // Assuming the new JSON is also named garments.json for this example
   fetch(`https://k0gasa.github.io/locations/${dataset}.json`)
-    .then(response => response.json())
+    .then(response => {
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response.json();
+     })
     .then(data => {
       // Filter out null/empty items AND items with count 0 initially
+      // No need to filter based on price here, handle 'N/A' during display/sort
       items = data.filter(item => item && item.id && item.count !== 0);
       filteredItems = [...items]; // Initialize filteredItems
       resetSort(); // Reset sort when loading new data
@@ -377,7 +393,8 @@ function loadData(dataset = 'garments') {
       console.error('Error loading items:', error);
       items = []; // Clear items on error
       filteredItems = [];
-      itemsContainer.innerHTML = '<tr><td colspan="5">Error loading data.</td></tr>'; // Show error in table
+      // Update colspan for the error message
+      itemsContainer.innerHTML = `<tr><td colspan="6">Error loading data. Check console.</td></tr>`;
       paginationContainer.innerHTML = '';
       typeFiltersContainer.innerHTML = '';
     });
@@ -387,16 +404,24 @@ function updateTypeFilters(dataset) {
   const types = dataset === 'garments' ? garmentTypes : furnitureTypes;
   activeType = 'all';
 
-  typeFiltersContainer.style.display = dataset === 'furnitures' ? 'none' : 'flex';
-  typeFiltersContainer.innerHTML = types.map(type => `
-    <button
-      class="type-filter ${type === 'all' ? 'active' : ''}"
-      data-type="${type}"
-      onclick="filterByType('${type}')"
-    >
-      ${type.charAt(0).toUpperCase() + type.slice(1)}
-    </button>
-  `).join('');
+  // Assuming furniture might also have types later, but hide if only 'all' exists
+  const showFilters = types.length > 1;
+  typeFiltersContainer.style.display = showFilters ? 'flex' : 'none';
+
+  if (showFilters) {
+    typeFiltersContainer.innerHTML = types.map(type => `
+      <button
+        class="type-filter ${type === 'all' ? 'active' : ''}"
+        data-type="${type}"
+        onclick="filterByType('${type}')"
+      >
+        ${type.charAt(0).toUpperCase() + type.slice(1)}
+      </button>
+    `).join('');
+  } else {
+     typeFiltersContainer.innerHTML = ''; // Clear if no filters needed
+  }
+
 
   // Initial filter application after setting up buttons
   updateFilteredItems();
@@ -418,16 +443,16 @@ function updateFilteredItems() {
 
   // Start with the base 'items' list (which already excludes count 0)
   filteredItems = items.filter(item => {
-    // Basic validity check (redundant due to initial load filter, but safe)
+    // Basic validity check
     if (!item || !item.id || item.count === 0) return false;
 
-    // Check search term
+    // Check search term (include title and id)
     const matchesSearch = (item.title?.toLowerCase() || '').includes(searchTerm) ||
                          (item.id?.toString() || '').includes(searchTerm);
     if (!matchesSearch) return false;
 
-    // Only apply type filtering for garments dataset
-    if (dataset === 'garments') {
+    // Apply type filtering only for garments dataset (if filters are active)
+    if (dataset === 'garments' && garmentTypes.length > 1) {
       const mainTypes = ['torso', 'hair', 'legs', 'face', 'feet'];
       const itemType = (item.type || '').toLowerCase();
       const isOtherType = !mainTypes.includes(itemType);
@@ -437,7 +462,7 @@ function updateFilteredItems() {
       return matchesType; // Already checked search and count
     }
 
-    // For other datasets (like furniture), just search and count filter apply
+    // For other datasets or if type filters aren't active, just search and count filter apply
     return true;
   });
 
@@ -445,21 +470,24 @@ function updateFilteredItems() {
   applySort();
 
   currentPage = 1; // Reset page number whenever filters change
-  renderTable(); // Pass no arguments, uses the global filteredItems
+  renderTable(); // Render the filtered and potentially sorted list
 }
 
 // --- Sorting Functions ---
 
 function resetSort() {
-    sortDirection = null;
-    updateSortIndicator();
+    sortColumn = null;
+    // sortDirection = 'asc'; // Keep the last direction or reset? Resetting might be less confusing.
+    updateSortIndicators(); // Update ALL indicators
 }
 
 function sortByCount() {
-    if (sortDirection === 'asc') {
-        sortDirection = 'desc';
+    if (sortColumn === 'count') {
+        // Toggle direction if already sorting by count
+        sortDirection = sortDirection === 'asc' ? 'desc' : 'asc';
     } else {
-        // If 'desc' or null, set to 'asc'
+        // Start sorting by count, default ascending
+        sortColumn = 'count';
         sortDirection = 'asc';
     }
     applySort(); // Sort the current filtered list
@@ -467,46 +495,96 @@ function sortByCount() {
     renderTable(); // Re-render the table with sorted data
 }
 
-function applySort() {
-    if (sortDirection) {
-        filteredItems.sort((a, b) => {
-            const countA = a.count || 0; // Handle potential null/undefined safely
-            const countB = b.count || 0;
-            if (sortDirection === 'asc') {
-                return countA - countB;
-            } else { // 'desc'
-                return countB - countA;
-            }
-        });
+function sortByPrice() {
+    if (sortColumn === 'price') {
+        // Toggle direction if already sorting by price
+        sortDirection = sortDirection === 'asc' ? 'desc' : 'asc';
+    } else {
+        // Start sorting by price, default ascending
+        sortColumn = 'price';
+        sortDirection = 'asc';
     }
-    // No else needed: if sortDirection is null, don't sort.
-    updateSortIndicator(); // Update visual indicator after sorting
+    applySort(); // Sort the current filtered list
+    currentPage = 1; // Go back to first page after sorting
+    renderTable(); // Re-render the table with sorted data
 }
 
 
-function updateSortIndicator() {
-    countHeader.classList.remove('sort-asc', 'sort-desc'); // Remove existing classes
-    if (sortDirection === 'asc') {
-        countHeader.classList.add('sort-asc');
-    } else if (sortDirection === 'desc') {
-        countHeader.classList.add('sort-desc');
+function applySort() {
+    if (!sortColumn) return; // Exit if no column is selected for sorting
+
+    filteredItems.sort((a, b) => {
+        let valA, valB;
+
+        if (sortColumn === 'count') {
+            valA = a.count || 0;
+            valB = b.count || 0;
+            // Simple numeric comparison
+            return sortDirection === 'asc' ? valA - valB : valB - valA;
+
+        } else if (sortColumn === 'price') {
+            const priceA = a.price;
+            const priceB = b.price;
+            const isNumA = typeof priceA === 'number' && !isNaN(priceA);
+            const isNumB = typeof priceB === 'number' && !isNaN(priceB);
+
+            // Logic to handle 'N/A' (non-numeric) values:
+            // Always push N/A to the bottom regardless of sort direction.
+            if (isNumA && !isNumB) return -1; // A (number) comes before B (N/A)
+            if (!isNumA && isNumB) return 1;  // A (N/A) comes after B (number)
+            if (!isNumA && !isNumB) return 0;  // Both are N/A, maintain original order relative to each other
+
+            // Both are numbers, compare them numerically
+            return sortDirection === 'asc' ? priceA - priceB : priceB - priceA;
+        }
+        // Add other sortable columns here if needed in the future
+        return 0; // Should not happen with current setup
+    });
+
+    updateSortIndicators(); // Update visual indicators after sorting is applied
+}
+
+
+function updateSortIndicators() {
+    // Clear indicators from all sortable headers first
+    [countHeader, priceHeader].forEach(header => {
+        if(header) { // Ensure header element exists
+            header.classList.remove('sort-asc', 'sort-desc');
+        }
+    });
+
+    // Find the currently active header based on sortColumn
+    let activeHeader = null;
+    if (sortColumn === 'count') {
+        activeHeader = countHeader;
+    } else if (sortColumn === 'price') {
+        activeHeader = priceHeader;
     }
-    // If sortDirection is null, no class is added
+
+    // Apply the correct class ('sort-asc' or 'sort-desc') to the active header
+    if (activeHeader) {
+        activeHeader.classList.add(sortDirection === 'asc' ? 'sort-asc' : 'sort-desc');
+    }
+    // If sortColumn is null, no indicators will be shown.
 }
 
 // --- Rendering Functions ---
 
-function renderTable() { // No argument needed, uses global filteredItems
+function renderTable() { // Uses global filteredItems
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
   const endIndex = startIndex + ITEMS_PER_PAGE;
-  const paginatedItems = filteredItems.slice(startIndex, endIndex); // Paginate the filtered (and potentially sorted) list
+  const paginatedItems = filteredItems.slice(startIndex, endIndex); // Paginate the filtered/sorted list
   const dataset = datasetSelector.value;
 
   const createTableRow = (item) => {
-    const itemType = dataset === 'garments' ? item.type : item.triggerType;
+    const itemType = dataset === 'garments' ? item.type : (item.triggerType || 'N/A'); // Example fallback for furniture
     const displayType = (!itemType || itemType === '' || itemType === 'null') ? 'NULL' : itemType;
-    // No need for N/A check here, as 0 counts are filtered out, and null/undefined are handled in sorting
-    const displayCount = item.count;
+    const displayCount = item.count; // Assuming count is always a number here
+
+    // Handle MP Price display
+    const displayPrice = (typeof item.price === 'number' && !isNaN(item.price))
+                         ? item.price.toLocaleString() // Format number nicely
+                         : 'N/A';                     // Display N/A otherwise
 
     return `
       <tr>
@@ -514,11 +592,12 @@ function renderTable() { // No argument needed, uses global filteredItems
           <div style="width: 80px; height: 80px; display: flex; align-items: center; justify-content: center; margin: 0 auto;">
             <img
               src="${item.thumbnailSd || ''}"
-              alt="${item.title || ''} preview"
+              alt="${item.title || 'Item'} preview"
               class="table-image"
               style="opacity: 0; transition: opacity 0.3s ease;"
               onload="this.style.opacity = '1'"
               loading="lazy"
+              onerror="this.style.opacity='1'; this.alt='Image load error';" // Handle broken images
             >
           </div>
         </td>
@@ -530,14 +609,18 @@ function renderTable() { // No argument needed, uses global filteredItems
           </span>
         </td>
         <td style="text-align: center;">
-          ${displayCount}
+          ${displayCount.toLocaleString()} <!-- Also format count -->
+        </td>
+        <td style="text-align: center;"> <!-- New TD for MP Price -->
+          ${displayPrice}
         </td>
       </tr>
     `;
   };
 
   if (paginatedItems.length === 0) {
-      itemsContainer.innerHTML = `<tr><td colspan="5" style="text-align: center; padding: 2rem;">No items match the current filters.</td></tr>`;
+      // Update colspan for the "No items" message
+      itemsContainer.innerHTML = `<tr><td colspan="6" style="text-align: center; padding: 2rem;">No items match the current filters.</td></tr>`;
   } else {
       itemsContainer.innerHTML = paginatedItems.map(createTableRow).join('');
   }
@@ -565,14 +648,37 @@ function renderPagination(totalItems) {
     </button>
   `;
 
-  // Page numbers (simplified for brevity - could add logic for ellipsis)
-  let startPage = Math.max(1, currentPage - 1);
-  let endPage = Math.min(totalPages, currentPage + 1);
+  // Page numbers (improved logic for ellipsis)
+  const maxPagesToShow = 5; // Max number of direct page links shown
+  let startPage, endPage;
 
+  if (totalPages <= maxPagesToShow) {
+      // Show all pages if total is small enough
+      startPage = 1;
+      endPage = totalPages;
+  } else {
+      // Calculate start and end pages with ellipsis logic
+      const maxPagesBeforeCurrent = Math.floor((maxPagesToShow - 1) / 2);
+      const maxPagesAfterCurrent = Math.ceil((maxPagesToShow - 1) / 2);
+
+      if (currentPage <= maxPagesBeforeCurrent) {
+          startPage = 1;
+          endPage = maxPagesToShow;
+      } else if (currentPage + maxPagesAfterCurrent >= totalPages) {
+          startPage = totalPages - maxPagesToShow + 1;
+          endPage = totalPages;
+      } else {
+          startPage = currentPage - maxPagesBeforeCurrent;
+          endPage = currentPage + maxPagesAfterCurrent;
+      }
+  }
+
+  // Ellipsis at the beginning?
   if (startPage > 1) {
      paginationHTML += `<button disabled>...</button>`;
   }
 
+  // Generate page number buttons
   for (let i = startPage; i <= endPage; i++) {
     paginationHTML += `
       <button class="${i === currentPage ? 'active' : ''}" onclick="changePage(${i})">
@@ -581,6 +687,7 @@ function renderPagination(totalItems) {
     `;
   }
 
+  // Ellipsis at the end?
    if (endPage < totalPages) {
      paginationHTML += `<button disabled>...</button>`;
   }
@@ -592,7 +699,7 @@ function renderPagination(totalItems) {
     </button>
   `;
 
-
+  // Last page button
   paginationHTML += `
     <button class="edge-button" onclick="changePage(${totalPages})" ${currentPage === totalPages ? 'disabled' : ''}>
       Last
@@ -608,11 +715,13 @@ function changePage(page) {
 
   currentPage = page;
   renderTable(); // Re-render the current page
+  window.scrollTo(0, 0); // Scroll to top on page change
 }
 
 // --- Event Listeners ---
 searchInput.addEventListener('input', () => {
-    resetSort(); // Reset sort when search term changes
+    // Don't reset sort on search, allow searching within sorted results
+    // resetSort(); // Optional: uncomment if you prefer reset on search
     updateFilteredItems();
 });
 datasetSelector.addEventListener('change', (e) => {
@@ -620,6 +729,7 @@ datasetSelector.addEventListener('change', (e) => {
 });
 
 // --- Initial Load ---
-loadData('garments');
+loadData('garments'); // Load default dataset
 </script>
-</body></html>
+</body>
+</html>
