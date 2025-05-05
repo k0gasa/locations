@@ -114,6 +114,15 @@ body {
   padding: 0.625rem 1.25rem;
 }
 
+.loading-indicator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  color: var(--text-secondary);
+  font-size: 0.875rem;
+}
+
 .type-filters {
   display: flex;
   gap: 0.75rem;
@@ -309,8 +318,7 @@ body {
 <div class="container">
   <div class="filter-row">
     <select class="dataset-selector" id="datasetSelector">
-      <option value="garments">Garments</option>
-      <option value="furnitures">Furnitures</option>
+      <option value="loading">Loading data sets...</option>
     </select>
     <input type="text" class="search-bar" placeholder="Search..." id="searchInput">
     <div class="type-filters" id="typeFilters">
@@ -332,13 +340,16 @@ body {
           <th id="countHeader" class="sortable" onclick="sortByCount()">
             Count <span class="sort-indicator"></span>
           </th>
-          <!-- NEW: MP Price Header -->
+          <!-- MP Price Header -->
           <th id="priceHeader" class="sortable" onclick="sortByPrice()">
             MP Price <span class="sort-indicator"></span>
           </th>
         </tr>
       </thead>
       <tbody id="itemsContainer">
+        <tr>
+          <td colspan="6" class="loading-indicator">Loading available datasets...</td>
+        </tr>  
       </tbody>
     </table>
   </div>
@@ -354,47 +365,216 @@ const itemsContainer = document.getElementById('itemsContainer');
 const searchInput = document.getElementById('searchInput');
 const paginationContainer = document.getElementById('pagination');
 const typeFiltersContainer = document.getElementById('typeFilters');
-const countHeader = document.getElementById('countHeader'); // Get count header element
-const priceHeader = document.getElementById('priceHeader'); // Get price header element
+const countHeader = document.getElementById('countHeader');
+const priceHeader = document.getElementById('priceHeader');
 
-const ITEMS_PER_PAGE = 4; // Increased for better visibility with more columns
+const ITEMS_PER_PAGE = 4;
 let currentPage = 1;
 let activeType = 'all';
 let filteredItems = [];
+let availableDatasets = [];
+let currentDatasetType = '';
+let currentDatasetFile = '';
 
-// --- Sorting State ---
-let sortColumn = null; // Which column to sort by: 'count', 'price', or null
-let sortDirection = 'asc'; // 'asc' or 'desc'
+
+let sortColumn = null; 
+let sortDirection = 'asc'; 
 
 const garmentTypes = [
   'all', 'torso', 'hair', 'legs', 'face', 'feet', 'other'
 ];
-const furnitureTypes = ['all']; // Currently unused, add types if furniture data has them
+const furnitureTypes = ['all']; 
 
-function loadData(dataset = 'garments') {
-  // Adjust the URL based on where your updated JSON is hosted
-  // Assuming the new JSON is also named garments.json for this example
-  fetch(`https://k0gasa.github.io/locations/${dataset}.json`)
+
+const repoOwner = 'k0gasa';
+const repoName = 'locations';
+const filePath = ''; 
+const baseApiUrl = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${filePath}`;
+const baseContentUrl = `https://${repoOwner}.github.io/${repoName}`;
+
+
+window.addEventListener('DOMContentLoaded', () => {
+  checkAvailableDatasets();
+});
+
+
+function checkAvailableDatasets() {
+  fetch(baseApiUrl)
     .then(response => {
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        return response.json();
-     })
-    .then(data => {
-      // Filter out null/empty items AND items with count 0 initially
-      // No need to filter based on price here, handle 'N/A' during display/sort
-      items = data.filter(item => item && item.id && item.count !== 0);
-      filteredItems = [...items]; // Initialize filteredItems
-      resetSort(); // Reset sort when loading new data
-      updateTypeFilters(dataset); // Update filters (this will call updateFilteredItems -> renderTable)
+      if (!response.ok) {
+        throw new Error(`GitHub API error: ${response.status}`);
+      }
+      return response.json();
+    })
+    .then(files => {
+      
+      const jsonFiles = files.filter(file => 
+        file.name.endsWith('.json') && 
+        (file.name.startsWith('garments') || file.name.startsWith('furnitures'))
+      );
+      
+      
+      processFiles(jsonFiles);
     })
     .catch(error => {
-      console.error('Error loading items:', error);
-      items = []; // Clear items on error
+      console.error('Error checking repository:', error);
+      datasetSelector.innerHTML = '<option value="error">Error loading datasets</option>';
+      
+      
+      availableDatasets = [
+        { type: 'garments', file: 'garments.json', label: 'Garments' },
+        { type: 'furnitures', file: 'furnitures.json', label: 'Furnitures' }
+      ];
+      
+      populateDatasetSelector();
+      loadFirstAvailableDataset();
+    });
+}
+
+
+function processFiles(files) {
+  
+  const fileGroups = {
+    'garments': [],
+    'furnitures': []
+  };
+  
+  
+  files.forEach(file => {
+    const fileName = file.name;
+    
+    
+    let baseType = '';
+    if (fileName.startsWith('garments')) {
+      baseType = 'garments';
+    } else if (fileName.startsWith('furnitures')) {
+      baseType = 'furnitures';
+    } else {
+      return; 
+    }
+    
+    
+    fileGroups[baseType].push(fileName);
+  });
+  
+  
+  availableDatasets = [];
+  
+  Object.keys(fileGroups).forEach(type => {
+    const typeFiles = fileGroups[type];
+    
+    
+    typeFiles.sort((a, b) => {
+      
+      if (a === `${type}.json`) return -1;
+      if (b === `${type}.json`) return 1;
+      
+      
+      const aMatch = a.match(/_(\d+)\.json$/);
+      const bMatch = b.match(/_(\d+)\.json$/);
+      
+      if (aMatch && bMatch) {
+        return parseInt(aMatch[1]) - parseInt(bMatch[1]);
+      }
+      
+      
+      return a.localeCompare(b);
+    });
+    
+    
+    typeFiles.forEach((file, index) => {
+      let label = '';
+      
+      
+      if (file === `${type}.json`) {
+        label = type.charAt(0).toUpperCase() + type.slice(1) + ' Scan 1';
+      } else {
+        const scanMatch = file.match(/_(\d+)\.json$/);
+        if (scanMatch) {
+          label = type.charAt(0).toUpperCase() + type.slice(1) + ` Scan ${scanMatch[1]}`;
+        } else {
+          label = file.replace('.json', '');
+        }
+      }
+      
+      availableDatasets.push({
+        type: type,
+        file: file,
+        label: label
+      });
+    });
+  });
+  
+  
+  populateDatasetSelector();
+  loadFirstAvailableDataset();
+}
+
+
+function populateDatasetSelector() {
+  if (availableDatasets.length === 0) {
+    datasetSelector.innerHTML = '<option value="none">No datasets found</option>';
+    return;
+  }
+  
+  datasetSelector.innerHTML = availableDatasets.map(dataset => 
+    `<option value="${dataset.type}|${dataset.file}">${dataset.label}</option>`
+  ).join('');
+}
+
+
+function loadFirstAvailableDataset() {
+  if (availableDatasets.length > 0) {
+    const firstDataset = availableDatasets[0];
+    datasetSelector.value = `${firstDataset.type}|${firstDataset.file}`;
+    loadSelectedDataset();
+  } else {
+    itemsContainer.innerHTML = `<tr><td colspan="6" style="text-align: center; padding: 2rem;">No datasets available.</td></tr>`;
+  }
+}
+
+
+function loadSelectedDataset() {
+  const selectedValue = datasetSelector.value;
+  
+  if (selectedValue === 'loading' || selectedValue === 'error' || selectedValue === 'none') {
+    return;
+  }
+  
+  const [datasetType, datasetFile] = selectedValue.split('|');
+  currentDatasetType = datasetType;
+  currentDatasetFile = datasetFile;
+  
+  
+  itemsContainer.innerHTML = `<tr><td colspan="6" class="loading-indicator">Loading ${datasetFile}...</td></tr>`;
+  
+  
+  loadData(datasetType, datasetFile);
+}
+
+function loadData(datasetType, datasetFile) {
+  
+  const fileUrl = `${baseContentUrl}/${datasetFile}`;
+  
+  fetch(fileUrl)
+    .then(response => {
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      return response.json();
+    })
+    .then(data => {
+      
+      items = data.filter(item => item && item.id && item.count !== 0);
+      filteredItems = [...items]; 
+      resetSort(); 
+      updateTypeFilters(datasetType); 
+    })
+    .catch(error => {
+      console.error(`Error loading ${datasetFile}:`, error);
+      items = []; 
       filteredItems = [];
-      // Update colspan for the error message
-      itemsContainer.innerHTML = `<tr><td colspan="6">Error loading data. Check console.</td></tr>`;
+      itemsContainer.innerHTML = `<tr><td colspan="6" style="text-align: center; padding: 2rem;">Error loading data file: ${datasetFile}</td></tr>`;
       paginationContainer.innerHTML = '';
       typeFiltersContainer.innerHTML = '';
     });
@@ -404,7 +584,7 @@ function updateTypeFilters(dataset) {
   const types = dataset === 'garments' ? garmentTypes : furnitureTypes;
   activeType = 'all';
 
-  // Assuming furniture might also have types later, but hide if only 'all' exists
+  
   const showFilters = types.length > 1;
   typeFiltersContainer.style.display = showFilters ? 'flex' : 'none';
 
@@ -419,11 +599,10 @@ function updateTypeFilters(dataset) {
       </button>
     `).join('');
   } else {
-     typeFiltersContainer.innerHTML = ''; // Clear if no filters needed
+     typeFiltersContainer.innerHTML = ''; 
   }
 
-
-  // Initial filter application after setting up buttons
+  
   updateFilteredItems();
 }
 
@@ -432,86 +611,83 @@ function filterByType(type) {
   document.querySelectorAll('.type-filter').forEach(btn => {
     btn.classList.toggle('active', btn.dataset.type === type);
   });
-  currentPage = 1; // Reset page when type filter changes
-  resetSort();     // Reset sort when type filter changes
+  currentPage = 1; 
+  resetSort();     
   updateFilteredItems();
 }
 
 function updateFilteredItems() {
   const searchTerm = searchInput.value.toLowerCase();
-  const dataset = datasetSelector.value;
-
-  // Start with the base 'items' list (which already excludes count 0)
+  
+  
   filteredItems = items.filter(item => {
-    // Basic validity check
+    
     if (!item || !item.id || item.count === 0) return false;
 
-    // Check search term (include title and id)
+    
     const matchesSearch = (item.title?.toLowerCase() || '').includes(searchTerm) ||
                          (item.id?.toString() || '').includes(searchTerm);
     if (!matchesSearch) return false;
 
-    // Apply type filtering only for garments dataset (if filters are active)
-    if (dataset === 'garments' && garmentTypes.length > 1) {
+    
+    if (currentDatasetType === 'garments' && garmentTypes.length > 1) {
       const mainTypes = ['torso', 'hair', 'legs', 'face', 'feet'];
       const itemType = (item.type || '').toLowerCase();
       const isOtherType = !mainTypes.includes(itemType);
       const matchesType = activeType === 'all' ||
                          (activeType === 'other' ? isOtherType :
                          itemType === activeType);
-      return matchesType; // Already checked search and count
+      return matchesType; 
     }
 
-    // For other datasets or if type filters aren't active, just search and count filter apply
+    
     return true;
   });
 
-  // Apply current sort if needed (important after filtering)
+  
   applySort();
 
-  currentPage = 1; // Reset page number whenever filters change
-  renderTable(); // Render the filtered and potentially sorted list
+  currentPage = 1; 
+  renderTable(); 
 }
 
-// --- Sorting Functions ---
+
 
 function resetSort() {
     sortColumn = null;
-    // sortDirection = 'asc'; // Keep the last direction or reset? Resetting might be less confusing.
-    updateSortIndicators(); // Update ALL indicators
+    updateSortIndicators(); 
 }
 
 function sortByCount() {
     if (sortColumn === 'count') {
-        // Toggle direction if already sorting by count
+        
         sortDirection = sortDirection === 'asc' ? 'desc' : 'asc';
     } else {
-        // Start sorting by count, default ascending
+        
         sortColumn = 'count';
         sortDirection = 'asc';
     }
-    applySort(); // Sort the current filtered list
-    currentPage = 1; // Go back to first page after sorting
-    renderTable(); // Re-render the table with sorted data
+    applySort(); 
+    currentPage = 1; 
+    renderTable(); 
 }
 
 function sortByPrice() {
     if (sortColumn === 'price') {
-        // Toggle direction if already sorting by price
+        
         sortDirection = sortDirection === 'asc' ? 'desc' : 'asc';
     } else {
-        // Start sorting by price, default ascending
+        
         sortColumn = 'price';
         sortDirection = 'asc';
     }
-    applySort(); // Sort the current filtered list
-    currentPage = 1; // Go back to first page after sorting
-    renderTable(); // Re-render the table with sorted data
+    applySort(); 
+    currentPage = 1; 
+    renderTable(); 
 }
 
-
 function applySort() {
-    if (!sortColumn) return; // Exit if no column is selected for sorting
+    if (!sortColumn) return; 
 
     filteredItems.sort((a, b) => {
         let valA, valB;
@@ -519,7 +695,7 @@ function applySort() {
         if (sortColumn === 'count') {
             valA = a.count || 0;
             valB = b.count || 0;
-            // Simple numeric comparison
+            
             return sortDirection === 'asc' ? valA - valB : valB - valA;
 
         } else if (sortColumn === 'price') {
@@ -528,32 +704,31 @@ function applySort() {
             const isNumA = typeof priceA === 'number' && !isNaN(priceA);
             const isNumB = typeof priceB === 'number' && !isNaN(priceB);
 
-            // Logic to handle 'N/A' (non-numeric) values:
-            // Always push N/A to the bottom regardless of sort direction.
-            if (isNumA && !isNumB) return -1; // A (number) comes before B (N/A)
-            if (!isNumA && isNumB) return 1;  // A (N/A) comes after B (number)
-            if (!isNumA && !isNumB) return 0;  // Both are N/A, maintain original order relative to each other
+            
+            
+            if (isNumA && !isNumB) return -1; 
+            if (!isNumA && isNumB) return 1;  
+            if (!isNumA && !isNumB) return 0;  
 
-            // Both are numbers, compare them numerically
+            
             return sortDirection === 'asc' ? priceA - priceB : priceB - priceA;
         }
-        // Add other sortable columns here if needed in the future
-        return 0; // Should not happen with current setup
+        
+        return 0; 
     });
 
-    updateSortIndicators(); // Update visual indicators after sorting is applied
+    updateSortIndicators(); 
 }
 
-
 function updateSortIndicators() {
-    // Clear indicators from all sortable headers first
+    
     [countHeader, priceHeader].forEach(header => {
-        if(header) { // Ensure header element exists
+        if(header) { 
             header.classList.remove('sort-asc', 'sort-desc');
         }
     });
 
-    // Find the currently active header based on sortColumn
+    
     let activeHeader = null;
     if (sortColumn === 'count') {
         activeHeader = countHeader;
@@ -561,30 +736,29 @@ function updateSortIndicators() {
         activeHeader = priceHeader;
     }
 
-    // Apply the correct class ('sort-asc' or 'sort-desc') to the active header
+    
     if (activeHeader) {
         activeHeader.classList.add(sortDirection === 'asc' ? 'sort-asc' : 'sort-desc');
     }
-    // If sortColumn is null, no indicators will be shown.
+    
 }
 
-// --- Rendering Functions ---
 
-function renderTable() { // Uses global filteredItems
+
+function renderTable() { 
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
   const endIndex = startIndex + ITEMS_PER_PAGE;
-  const paginatedItems = filteredItems.slice(startIndex, endIndex); // Paginate the filtered/sorted list
-  const dataset = datasetSelector.value;
+  const paginatedItems = filteredItems.slice(startIndex, endIndex); 
 
   const createTableRow = (item) => {
-    const itemType = dataset === 'garments' ? item.type : (item.triggerType || 'N/A'); // Example fallback for furniture
+    const itemType = currentDatasetType === 'garments' ? item.type : (item.triggerType || 'N/A'); 
     const displayType = (!itemType || itemType === '' || itemType === 'null') ? 'NULL' : itemType;
-    const displayCount = item.count; // Assuming count is always a number here
+    const displayCount = item.count; 
 
-    // Handle MP Price display
+    
     const displayPrice = (typeof item.price === 'number' && !isNaN(item.price))
-                         ? item.price.toLocaleString() // Format number nicely
-                         : 'N/A';                     // Display N/A otherwise
+                         ? item.price.toLocaleString() 
+                         : 'N/A';                     
 
     return `
       <tr>
@@ -597,7 +771,7 @@ function renderTable() { // Uses global filteredItems
               style="opacity: 0; transition: opacity 0.3s ease;"
               onload="this.style.opacity = '1'"
               loading="lazy"
-              onerror="this.style.opacity='1'; this.alt='Image load error';" // Handle broken images
+              onerror="this.style.opacity='1'; this.alt='Image load error';" 
             >
           </div>
         </td>
@@ -619,19 +793,19 @@ function renderTable() { // Uses global filteredItems
   };
 
   if (paginatedItems.length === 0) {
-      // Update colspan for the "No items" message
+      
       itemsContainer.innerHTML = `<tr><td colspan="6" style="text-align: center; padding: 2rem;">No items match the current filters.</td></tr>`;
   } else {
       itemsContainer.innerHTML = paginatedItems.map(createTableRow).join('');
   }
-  renderPagination(filteredItems.length); // Use total filtered items for pagination calculation
+  renderPagination(filteredItems.length); 
 }
 
 function renderPagination(totalItems) {
   const totalPages = Math.ceil(totalItems / ITEMS_PER_PAGE);
 
   if (totalPages <= 1) {
-      paginationContainer.innerHTML = ''; // Hide pagination if only one page or less
+      paginationContainer.innerHTML = ''; 
       return;
   }
 
@@ -641,23 +815,23 @@ function renderPagination(totalItems) {
     </button>
   `;
 
-  // Previous page button
+  
   paginationHTML += `
     <button onclick="changePage(${currentPage - 1})" ${currentPage === 1 ? 'disabled' : ''}>
       < Prev
     </button>
   `;
 
-  // Page numbers (improved logic for ellipsis)
-  const maxPagesToShow = 5; // Max number of direct page links shown
+  
+  const maxPagesToShow = 5; 
   let startPage, endPage;
 
   if (totalPages <= maxPagesToShow) {
-      // Show all pages if total is small enough
+      
       startPage = 1;
       endPage = totalPages;
   } else {
-      // Calculate start and end pages with ellipsis logic
+      
       const maxPagesBeforeCurrent = Math.floor((maxPagesToShow - 1) / 2);
       const maxPagesAfterCurrent = Math.ceil((maxPagesToShow - 1) / 2);
 
@@ -673,12 +847,12 @@ function renderPagination(totalItems) {
       }
   }
 
-  // Ellipsis at the beginning?
+  
   if (startPage > 1) {
      paginationHTML += `<button disabled>...</button>`;
   }
 
-  // Generate page number buttons
+  
   for (let i = startPage; i <= endPage; i++) {
     paginationHTML += `
       <button class="${i === currentPage ? 'active' : ''}" onclick="changePage(${i})">
@@ -687,19 +861,19 @@ function renderPagination(totalItems) {
     `;
   }
 
-  // Ellipsis at the end?
+  
    if (endPage < totalPages) {
      paginationHTML += `<button disabled>...</button>`;
   }
 
-  // Next page button
+  
   paginationHTML += `
     <button onclick="changePage(${currentPage + 1})" ${currentPage === totalPages ? 'disabled' : ''}>
       Next >
     </button>
   `;
 
-  // Last page button
+  
   paginationHTML += `
     <button class="edge-button" onclick="changePage(${totalPages})" ${currentPage === totalPages ? 'disabled' : ''}>
       Last
@@ -714,22 +888,21 @@ function changePage(page) {
   if (page < 1 || page > totalPages) return;
 
   currentPage = page;
-  renderTable(); // Re-render the current page
-  window.scrollTo(0, 0); // Scroll to top on page change
+  renderTable(); 
+  window.scrollTo(0, 0); 
 }
 
-// --- Event Listeners ---
+
 searchInput.addEventListener('input', () => {
-    // Don't reset sort on search, allow searching within sorted results
-    // resetSort(); // Optional: uncomment if you prefer reset on search
+    
+    
     updateFilteredItems();
 });
 datasetSelector.addEventListener('change', (e) => {
-  loadData(e.target.value); // This calls loadData, which resets sort and calls updateFilteredItems
+  loadSelectedDataset(); 
 });
 
-// --- Initial Load ---
-loadData('garments'); // Load default dataset
+
 </script>
 </body>
 </html>
