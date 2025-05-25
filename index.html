@@ -600,12 +600,7 @@ function loadData(datasetType, datasetFile) {
       }
 
       // Apply filters based on type
-      if (currentDatasetType === 'spellz') {
-        items = rawItemsArray.filter(item => item && item.id); // For spellz, only ensure item and id exist. Count can be 0.
-      } else {
-        // For garments and furnitures, keep the original filter including count !== 0
-        items = rawItemsArray.filter(item => item && item.id && item.count !== 0);
-      }
+      items = rawItemsArray.filter(item => item && item.id && item.count !== 0);
       
       filteredItems = [...items]; 
       resetSort(); 
@@ -664,7 +659,7 @@ function updateFilteredItems() {
   
   filteredItems = items.filter(item => {
     
-    if (!item || !item.id || (currentDatasetType !== 'spellz' && item.count === 0)) return false; // Allow count 0 for spellz initially, will be handled by display
+    if (!item || !item.id) return false; // loadData now handles count === 0 filtering for all types
 
     
     const nameOrTitle = item.title || item.name || '';
