@@ -573,8 +573,40 @@ function loadData(datasetType, datasetFile) {
       return response.json();
     })
     .then(data => {
+      let rawItemsArray;
+
+      if (currentDatasetType === 'spellz') {
+        if (data && typeof data === 'object' && Array.isArray(data.name)) {
+          rawItemsArray = data.name;
+        } else {
+          console.error(`Error: For spellz dataset '${currentDatasetFile}', expected an object with a 'name' array. Actual data:`, data);
+          itemsContainer.innerHTML = `<tr><td colspan="4" style="text-align: center; padding: 2rem;">Error: Invalid data format for ${currentDatasetFile}.</td></tr>`;
+          items = []; 
+          filteredItems = []; 
+          paginationContainer.innerHTML = ''; 
+          typeFiltersContainer.innerHTML = '';
+          return; 
+        }
+      } else if (Array.isArray(data)) {
+        rawItemsArray = data;
+      } else {
+        console.error(`Error: For dataset '${currentDatasetFile}', expected an array. Actual data:`, data);
+        itemsContainer.innerHTML = `<tr><td colspan="${currentDatasetType === 'spellz' ? 4 : 6}" style="text-align: center; padding: 2rem;">Error: Invalid data format for ${currentDatasetFile}.</td></tr>`;
+        items = []; 
+        filteredItems = []; 
+        paginationContainer.innerHTML = ''; 
+        typeFiltersContainer.innerHTML = '';
+        return; 
+      }
+
+      // Apply filters based on type
+      if (currentDatasetType === 'spellz') {
+        items = rawItemsArray.filter(item => item && item.id); // For spellz, only ensure item and id exist. Count can be 0.
+      } else {
+        // For garments and furnitures, keep the original filter including count !== 0
+        items = rawItemsArray.filter(item => item && item.id && item.count !== 0);
+      }
       
-      items = data.filter(item => item && item.id && item.count !== 0);
       filteredItems = [...items]; 
       resetSort(); 
       updateTableHeaders(); 
