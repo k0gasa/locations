@@ -384,6 +384,7 @@ const garmentTypes = [
   'all', 'torso', 'hair', 'legs', 'face', 'feet', 'other'
 ];
 const furnitureTypes = ['all']; 
+const spellzTypes = ['all'];
 
 
 const repoOwner = 'k0gasa';
@@ -410,7 +411,7 @@ function checkAvailableDatasets() {
       
       const jsonFiles = files.filter(file => 
         file.name.endsWith('.json') && 
-        (file.name.startsWith('garments') || file.name.startsWith('furnitures'))
+        (file.name.startsWith('garments') || file.name.startsWith('furnitures') || file.name.startsWith('spellz'))
       );
       
       
@@ -423,7 +424,9 @@ function checkAvailableDatasets() {
       
       availableDatasets = [
         { type: 'garments', file: 'garments.json', label: 'Garments' },
-        { type: 'furnitures', file: 'furnitures.json', label: 'Furnitures' }
+        { type: 'furnitures', file: 'furnitures.json', label: 'Furnitures' },
+        { type: 'spellz', file: 'spellz_1.json', label: 'Spellz Scan 1' },
+        { type: 'spellz', file: 'spellz_2.json', label: 'Spellz Scan 2' }
       ];
       
       populateDatasetSelector();
@@ -436,7 +439,8 @@ function processFiles(files) {
   
   const fileGroups = {
     'garments': [],
-    'furnitures': []
+    'furnitures': [],
+    'spellz': []
   };
   
   
@@ -449,6 +453,8 @@ function processFiles(files) {
       baseType = 'garments';
     } else if (fileName.startsWith('furnitures')) {
       baseType = 'furnitures';
+    } else if (fileName.startsWith('spellz')) {
+      baseType = 'spellz';
     } else {
       return; 
     }
@@ -541,12 +547,15 @@ function loadSelectedDataset() {
     return;
   }
   
+  const defaultColspan = 6;
+  itemsContainer.innerHTML = `<tr><td colspan="${defaultColspan}" class="loading-indicator">Loading ${currentDatasetFile}...</td></tr>`;
+  
   const [datasetType, datasetFile] = selectedValue.split('|');
   currentDatasetType = datasetType;
   currentDatasetFile = datasetFile;
   
   
-  itemsContainer.innerHTML = `<tr><td colspan="6" class="loading-indicator">Loading ${datasetFile}...</td></tr>`;
+  itemsContainer.innerHTML = `<tr><td colspan="${currentDatasetType === 'spellz' ? 4 : 6}" class="loading-indicator">Loading ${datasetFile}...</td></tr>`;
   
   
   loadData(datasetType, datasetFile);
@@ -568,20 +577,21 @@ function loadData(datasetType, datasetFile) {
       items = data.filter(item => item && item.id && item.count !== 0);
       filteredItems = [...items]; 
       resetSort(); 
+      updateTableHeaders(); 
       updateTypeFilters(datasetType); 
     })
     .catch(error => {
       console.error(`Error loading ${datasetFile}:`, error);
       items = []; 
       filteredItems = [];
-      itemsContainer.innerHTML = `<tr><td colspan="6" style="text-align: center; padding: 2rem;">Error loading data file: ${datasetFile}</td></tr>`;
+      itemsContainer.innerHTML = `<tr><td colspan="${currentDatasetType === 'spellz' ? 4 : 6}" style="text-align: center; padding: 2rem;">Error loading data file: ${datasetFile}</td></tr>`;
       paginationContainer.innerHTML = '';
       typeFiltersContainer.innerHTML = '';
     });
 }
 
 function updateTypeFilters(dataset) {
-  const types = dataset === 'garments' ? garmentTypes : furnitureTypes;
+  const types = dataset === 'garments' ? garmentTypes : (dataset === 'spellz' ? spellzTypes : furnitureTypes);
   activeType = 'all';
 
   
@@ -622,10 +632,11 @@ function updateFilteredItems() {
   
   filteredItems = items.filter(item => {
     
-    if (!item || !item.id || item.count === 0) return false;
+    if (!item || !item.id || (currentDatasetType !== 'spellz' && item.count === 0)) return false; // Allow count 0 for spellz initially, will be handled by display
 
     
-    const matchesSearch = (item.title?.toLowerCase() || '').includes(searchTerm) ||
+    const nameOrTitle = item.title || item.name || '';
+    const matchesSearch = (nameOrTitle.toLowerCase()).includes(searchTerm) ||
                          (item.id?.toString() || '').includes(searchTerm);
     if (!matchesSearch) return false;
 
@@ -743,7 +754,38 @@ function updateSortIndicators() {
     
 }
 
+function updateTableHeaders() {
+    const thead = document.querySelector('.items-table thead tr');
+    if (!thead) return;
 
+    if (currentDatasetType === 'spellz') {
+        thead.innerHTML = `
+            <th>Image</th>
+            <th>ID</th>
+            <th>Name</th>
+            <th id="countHeader" class="sortable" onclick="sortByCount()">
+                Count <span class="sort-indicator"></span>
+            </th>
+        `;
+    } else {
+        thead.innerHTML = `
+            <th>Image</th>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Type</th>
+            <th id="countHeader" class="sortable" onclick="sortByCount()">
+                Count <span class="sort-indicator"></span>
+            </th>
+            <th id="priceHeader" class="sortable" onclick="sortByPrice()">
+                MP Price <span class="sort-indicator"></span>
+            </th>
+        `;
+    }
+    // Re-assign header elements after changing innerHTML
+    countHeader = document.getElementById('countHeader');
+    priceHeader = document.getElementById('priceHeader');
+    updateSortIndicators();
+}
 
 function renderTable() { 
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
@@ -751,50 +793,73 @@ function renderTable() {
   const paginatedItems = filteredItems.slice(startIndex, endIndex); 
 
   const createTableRow = (item) => {
-    const itemType = currentDatasetType === 'garments' ? item.type : (item.triggerType || 'N/A'); 
-    const displayType = (!itemType || itemType === '' || itemType === 'null') ? 'NULL' : itemType;
-    const displayCount = item.count; 
+    if (currentDatasetType === 'spellz') {
+        const itemName = item.title || item.name;
+        return `
+            <tr>
+                <td style="text-align: center;">
+                    <div style="width: 80px; height: 80px; display: flex; align-items: center; justify-content: center; margin: 0 auto;">
+                        <img
+                            src="${item.icon || ''}"
+                            alt="${itemName || 'Item'} preview"
+                            class="table-image"
+                            style="opacity: 0; transition: opacity 0.3s ease;"
+                            onload="this.style.opacity = '1'"
+                            loading="lazy"
+                            onerror="this.style.opacity='1'; this.alt='Image load error'; this.src='';" 
+                        >
+                    </div>
+                </td>
+                <td style="text-align: center;">${item.id || ''}</td>
+                <td style="text-align: center;">${itemName || ''}</td>
+                <td style="text-align: center;">${item.count}</td>
+            </tr>
+        `;
+    } else {
+        const itemType = currentDatasetType === 'garments' ? item.type : (item.triggerType || 'N/A'); 
+        const displayType = (!itemType || itemType === '' || itemType === 'null') ? 'NULL' : itemType;
+        const displayCount = item.count; 
 
-    
-    const displayPrice = (typeof item.price === 'number' && !isNaN(item.price))
-                         ? item.price.toLocaleString() 
-                         : 'N/A';                     
+        const displayPrice = (typeof item.price === 'number' && !isNaN(item.price))
+                             ? item.price.toLocaleString() 
+                             : 'N/A';                     
 
-    return `
-      <tr>
-        <td style="text-align: center;">
-          <div style="width: 80px; height: 80px; display: flex; align-items: center; justify-content: center; margin: 0 auto;">
-            <img
-              src="${item.thumbnailSd || ''}"
-              alt="${item.title || 'Item'} preview"
-              class="table-image"
-              style="opacity: 0; transition: opacity 0.3s ease;"
-              onload="this.style.opacity = '1'"
-              loading="lazy"
-              onerror="this.style.opacity='1'; this.alt='Image load error';" 
-            >
-          </div>
-        </td>
-        <td style="text-align: center;">${item.id || ''}</td>
-        <td style="text-align: center;">${item.title || ''}</td>
-        <td style="text-align: center;">
-          <span class="type-badge">
-            ${displayType}
-          </span>
-        </td>
-        <td style="text-align: center;">
-          ${displayCount.toLocaleString()} <!-- Also format count -->
-        </td>
-        <td style="text-align: center;"> <!-- New TD for MP Price -->
-          ${displayPrice}
-        </td>
-      </tr>
-    `;
+        return `
+          <tr>
+            <td style="text-align: center;">
+              <div style="width: 80px; height: 80px; display: flex; align-items: center; justify-content: center; margin: 0 auto;">
+                <img
+                  src="${item.thumbnailSd || ''}"
+                  alt="${item.title || 'Item'} preview"
+                  class="table-image"
+                  style="opacity: 0; transition: opacity 0.3s ease;"
+                  onload="this.style.opacity = '1'"
+                  loading="lazy"
+                  onerror="this.style.opacity='1'; this.alt='Image load error'; this.src='';" 
+                >
+              </div>
+            </td>
+            <td style="text-align: center;">${item.id || ''}</td>
+            <td style="text-align: center;">${item.title || ''}</td>
+            <td style="text-align: center;">
+              <span class="type-badge">
+                ${displayType}
+              </span>
+            </td>
+            <td style="text-align: center;">
+              ${displayCount.toLocaleString()} <!-- Also format count -->
+            </td>
+            <td style="text-align: center;"> <!-- New TD for MP Price -->
+              ${displayPrice}
+            </td>
+          </tr>
+        `;
+    }
   };
 
   if (paginatedItems.length === 0) {
-      
-      itemsContainer.innerHTML = `<tr><td colspan="6" style="text-align: center; padding: 2rem;">No items match the current filters.</td></tr>`;
+      const colspan = currentDatasetType === 'spellz' ? 4 : 6;
+      itemsContainer.innerHTML = `<tr><td colspan="${colspan}" style="text-align: center; padding: 2rem;">No items match the current filters.</td></tr>`;
   } else {
       itemsContainer.innerHTML = paginatedItems.map(createTableRow).join('');
   }
@@ -902,7 +967,7 @@ datasetSelector.addEventListener('change', (e) => {
   loadSelectedDataset(); 
 });
 
-
+updateTableHeaders(); // Initial call to set headers based on the default or first loaded dataset
 </script>
 </body>
 </html>
