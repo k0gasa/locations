@@ -344,11 +344,14 @@ body {
           <th id="priceHeader" class="sortable" onclick="sortByPrice()">
             MP Price <span class="sort-indicator"></span>
           </th>
+          <th id="isBoundHeader" class="sortable" onclick="sortByIsBound()">
+            isBound <span class="sort-indicator"></span>
+          </th>
         </tr>
       </thead>
       <tbody id="itemsContainer">
         <tr>
-          <td colspan="6" class="loading-indicator">Loading available datasets...</td>
+          <td colspan="7" class="loading-indicator">Loading available datasets...</td>
         </tr>  
       </tbody>
     </table>
@@ -367,6 +370,7 @@ const paginationContainer = document.getElementById('pagination');
 const typeFiltersContainer = document.getElementById('typeFilters');
 let countHeader = document.getElementById('countHeader');
 let priceHeader = document.getElementById('priceHeader');
+let isBoundHeader = document.getElementById('isBoundHeader');
 
 const ITEMS_PER_PAGE = 4;
 let currentPage = 1;
@@ -535,7 +539,7 @@ function loadFirstAvailableDataset() {
     datasetSelector.value = `${firstDataset.type}|${firstDataset.file}`;
     loadSelectedDataset();
   } else {
-    itemsContainer.innerHTML = `<tr><td colspan="6" style="text-align: center; padding: 2rem;">No datasets available.</td></tr>`;
+    itemsContainer.innerHTML = `<tr><td colspan="7" style="text-align: center; padding: 2rem;">No datasets available.</td></tr>`;
   }
 }
 
@@ -547,7 +551,7 @@ function loadSelectedDataset() {
     return;
   }
   
-  const defaultColspan = 6;
+  const defaultColspan = 7;
   itemsContainer.innerHTML = `<tr><td colspan="${defaultColspan}" class="loading-indicator">Loading ${currentDatasetFile}...</td></tr>`;
   
   const [datasetType, datasetFile] = selectedValue.split('|');
@@ -555,7 +559,7 @@ function loadSelectedDataset() {
   currentDatasetFile = datasetFile;
   
   
-  itemsContainer.innerHTML = `<tr><td colspan="${currentDatasetType === 'spellz' ? 4 : 6}" class="loading-indicator">Loading ${datasetFile}...</td></tr>`;
+  itemsContainer.innerHTML = `<tr><td colspan="${currentDatasetType === 'spellz' ? 5 : 7}" class="loading-indicator">Loading ${datasetFile}...</td></tr>`;
   
   
   loadData(datasetType, datasetFile);
@@ -580,7 +584,7 @@ function loadData(datasetType, datasetFile) {
           rawItemsArray = data.name;
         } else {
           console.error(`Error: For spellz dataset '${currentDatasetFile}', expected an object with a 'name' array. Actual data:`, data);
-          itemsContainer.innerHTML = `<tr><td colspan="4" style="text-align: center; padding: 2rem;">Error: Invalid data format for ${currentDatasetFile}.</td></tr>`;
+          itemsContainer.innerHTML = `<tr><td colspan="5" style="text-align: center; padding: 2rem;">Error: Invalid data format for ${currentDatasetFile}.</td></tr>`;
           items = []; 
           filteredItems = []; 
           paginationContainer.innerHTML = ''; 
@@ -591,7 +595,7 @@ function loadData(datasetType, datasetFile) {
         rawItemsArray = data;
       } else {
         console.error(`Error: For dataset '${currentDatasetFile}', expected an array. Actual data:`, data);
-        itemsContainer.innerHTML = `<tr><td colspan="${currentDatasetType === 'spellz' ? 4 : 6}" style="text-align: center; padding: 2rem;">Error: Invalid data format for ${currentDatasetFile}.</td></tr>`;
+        itemsContainer.innerHTML = `<tr><td colspan="${currentDatasetType === 'spellz' ? 5 : 7}" style="text-align: center; padding: 2rem;">Error: Invalid data format for ${currentDatasetFile}.</td></tr>`;
         items = []; 
         filteredItems = []; 
         paginationContainer.innerHTML = ''; 
@@ -611,7 +615,7 @@ function loadData(datasetType, datasetFile) {
       console.error(`Error loading ${datasetFile}:`, error);
       items = []; 
       filteredItems = [];
-      itemsContainer.innerHTML = `<tr><td colspan="${currentDatasetType === 'spellz' ? 4 : 6}" style="text-align: center; padding: 2rem;">Error loading data file: ${datasetFile}</td></tr>`;
+      itemsContainer.innerHTML = `<tr><td colspan="${currentDatasetType === 'spellz' ? 5 : 7}" style="text-align: center; padding: 2rem;">Error loading data file: ${datasetFile}</td></tr>`;
       paginationContainer.innerHTML = '';
       typeFiltersContainer.innerHTML = '';
     });
@@ -724,6 +728,18 @@ function sortByPrice() {
     renderTable(); 
 }
 
+function sortByIsBound() {
+    if (sortColumn === 'isBound') {
+        sortDirection = sortDirection === 'asc' ? 'desc' : 'asc';
+    } else {
+        sortColumn = 'isBound';
+        sortDirection = 'asc';
+    }
+    applySort();
+    currentPage = 1;
+    renderTable();
+}
+
 function applySort() {
     if (!sortColumn) return; 
 
@@ -750,6 +766,10 @@ function applySort() {
 
             
             return sortDirection === 'asc' ? priceA - priceB : priceB - priceA;
+        } else if (sortColumn === 'isBound') {
+            valA = a.ownerBound === true ? 1 : 0;
+            valB = b.ownerBound === true ? 1 : 0;
+            return sortDirection === 'asc' ? valA - valB : valB - valA;
         }
         
         return 0; 
@@ -760,7 +780,7 @@ function applySort() {
 
 function updateSortIndicators() {
     
-    [countHeader, priceHeader].forEach(header => {
+    [countHeader, priceHeader, isBoundHeader].forEach(header => {
         if(header) { 
             header.classList.remove('sort-asc', 'sort-desc');
         }
@@ -772,6 +792,8 @@ function updateSortIndicators() {
         activeHeader = countHeader;
     } else if (sortColumn === 'price') {
         activeHeader = priceHeader;
+    } else if (sortColumn === 'isBound') {
+        activeHeader = isBoundHeader;
     }
 
     
@@ -790,6 +812,9 @@ function updateTableHeaders() {
             <th>Image</th>
             <th>ID</th>
             <th>Name</th>
+            <th id="isBoundHeader" class="sortable" onclick="sortByIsBound()">
+                isBound <span class="sort-indicator"></span>
+            </th>
             <th id="countHeader" class="sortable" onclick="sortByCount()">
                 Count <span class="sort-indicator"></span>
             </th>
@@ -806,11 +831,15 @@ function updateTableHeaders() {
             <th id="priceHeader" class="sortable" onclick="sortByPrice()">
                 MP Price <span class="sort-indicator"></span>
             </th>
+            <th id="isBoundHeader" class="sortable" onclick="sortByIsBound()">
+                isBound <span class="sort-indicator"></span>
+            </th>
         `;
     }
     // Re-assign header elements after changing innerHTML
     countHeader = document.getElementById('countHeader');
     priceHeader = document.getElementById('priceHeader');
+    isBoundHeader = document.getElementById('isBoundHeader');
     updateSortIndicators();
 }
 
@@ -822,6 +851,7 @@ function renderTable() {
   const createTableRow = (item) => {
     if (currentDatasetType === 'spellz') {
         const itemName = item.title || item.name;
+        const displayIsBound = item.ownerBound === true ? 'TRUE' : 'FALSE';
         return `
             <tr>
                 <td style="text-align: center;">
@@ -839,6 +869,7 @@ function renderTable() {
                 </td>
                 <td style="text-align: center;">${item.id || ''}</td>
                 <td style="text-align: center;">${itemName || ''}</td>
+                <td style="text-align: center;">${displayIsBound}</td>
                 <td style="text-align: center;">${item.count}</td>
             </tr>
         `;
@@ -850,6 +881,7 @@ function renderTable() {
         const displayPrice = (typeof item.price === 'number' && !isNaN(item.price))
                              ? item.price.toLocaleString() 
                              : 'N/A';                     
+        const displayIsBound = item.ownerBound === true ? 'TRUE' : 'FALSE';
 
         return `
           <tr>
@@ -879,13 +911,16 @@ function renderTable() {
             <td style="text-align: center;"> <!-- New TD for MP Price -->
               ${displayPrice}
             </td>
+            <td style="text-align: center;">
+              ${displayIsBound}
+            </td>
           </tr>
         `;
     }
   };
 
   if (paginatedItems.length === 0) {
-      const colspan = currentDatasetType === 'spellz' ? 4 : 6;
+      const colspan = currentDatasetType === 'spellz' ? 5 : 7;
       itemsContainer.innerHTML = `<tr><td colspan="${colspan}" style="text-align: center; padding: 2rem;">No items match the current filters.</td></tr>`;
   } else {
       itemsContainer.innerHTML = paginatedItems.map(createTableRow).join('');
