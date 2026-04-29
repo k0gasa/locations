@@ -643,7 +643,7 @@
             "woozSellable": false,
             "unknown_48": "",
             "unknown_49": "",
-            "count": 6
+            "count": 16
         },
         {
             "name": "stinky",
@@ -3308,7 +3308,7 @@
             "woozSellable": true,
             "unknown_48": "",
             "unknown_49": "",
-            "count": 10
+            "count": 11
         },
         {
             "name": "winterGames07_torchLibStreet",
@@ -4800,7 +4800,7 @@
             "woozSellable": true,
             "unknown_48": "",
             "unknown_49": "",
-            "count": 15
+            "count": 16
         },
         {
             "name": "fxfactor_halloweenDeluxe_parrot",
@@ -4879,7 +4879,7 @@
             "credentials": "",
             "extraData": "{\"descriptorId\":1520,\"tags\":{\"spell\":[]}}",
             "woozSellable": true,
-            "count": 98
+            "count": 103
         },
         {
             "name": "FunZ_Pizza",
@@ -4915,7 +4915,7 @@
             "credentials": "",
             "extraData": "{\"descriptorId\":1519,\"tags\":{\"spell\":[]}}",
             "woozSellable": true,
-            "count": 42
+            "count": 43
         },
         {
             "name": "FunZ_Pouch_Pouch",
@@ -4952,7 +4952,7 @@
             "credentials": "",
             "extraData": "{\"tags\":{\"spell\":[]}}",
             "woozSellable": true,
-            "count": 283
+            "count": 363
         },
         {
             "name": "Funz_cupCake",
@@ -4988,7 +4988,7 @@
             "credentials": "",
             "extraData": "{\"descriptorId\":1529,\"tags\":{\"spell\":[]}}",
             "woozSellable": true,
-            "count": 73
+            "count": 83
         },
         {
             "name": "fxfactor_newyear2011",
@@ -5068,7 +5068,7 @@
             "credentials": "",
             "extraData": "{\"descriptorId\":1572,\"tags\":{\"spell\":[]}}",
             "woozSellable": true,
-            "count": 65
+            "count": 74
         },
         {
             "name": "Funz_fries",
@@ -5104,7 +5104,7 @@
             "credentials": "",
             "extraData": "{\"descriptorId\":1576,\"tags\":{\"spell\":[]}}",
             "woozSellable": true,
-            "count": 301
+            "count": 346
         },
         {
             "name": "Funz_hotdog",
@@ -5140,7 +5140,7 @@
             "credentials": "",
             "extraData": "{\"descriptorId\":1578,\"tags\":{\"spell\":[]}}",
             "woozSellable": true,
-            "count": 44
+            "count": 45
         },
         {
             "name": "jobGuitarHero",
@@ -5249,7 +5249,7 @@
             "credentials": "",
             "extraData": "{\"descriptorId\":1634,\"tags\":{\"spell\":[]}}",
             "woozSellable": true,
-            "count": 71
+            "count": 76
         },
         {
             "name": "FunzSpellz_bonbon_01",
@@ -5285,7 +5285,7 @@
             "credentials": "",
             "extraData": "{\"descriptorId\":1641,\"tags\":{\"spell\":[]}}",
             "woozSellable": true,
-            "count": 62
+            "count": 63
         },
         {
             "name": "fxfactor_iLoveU",
@@ -7502,7 +7502,7 @@
             "credentials": "",
             "extraData": "{\"descriptorId\":3088,\"tags\":{\"spell\":[]}}",
             "woozSellable": true,
-            "count": 0
+            "count": 5
         },
         {
             "name": "Funz_ChocolateFounatin",
@@ -9088,7 +9088,7 @@
             "woozSellable": true,
             "unknown_48": "",
             "unknown_49": "",
-            "count": 0
+            "count": 1
         },
         {
             "name": "Petz_batteriesFood_01",
@@ -11774,7 +11774,7 @@
             "credentials": "",
             "extraData": "{\"tags\":{\"xmas_deco\":[]},\"descriptorId\":5986,\"reward\":{\"rewards_pack_name\":\"xmastree2013_decoration_reward_10\"}}",
             "woozSellable": true,
-            "count": 0
+            "count": 2
         },
         {
             "name": "freezeworld_xmasStar_gold",
@@ -12207,7 +12207,7 @@
             "woozSellable": true,
             "unknown_48": "",
             "unknown_49": "",
-            "count": 80
+            "count": 89
         },
         {
             "name": "seed_greencactus",
@@ -13206,7 +13206,7 @@
             "credentials": "",
             "extraData": "{\"tags\":{\"spell\":[]},\"descriptorId\":6505}",
             "woozSellable": true,
-            "count": 517
+            "count": 915
         },
         {
             "name": "worldCup2014_yellowCard",
@@ -13294,7 +13294,7 @@
             "woozSellable": false,
             "unknown_48": "",
             "unknown_49": "",
-            "count": 0
+            "count": 9
         },
         {
             "name": "JellyCubesGR",
