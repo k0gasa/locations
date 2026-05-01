@@ -213,7 +213,7 @@
             "woozSellable": false,
             "unknown_48": "",
             "unknown_49": "",
-            "count": 38
+            "count": 58
         },
         {
             "name": "brainThief",
@@ -772,7 +772,7 @@
             "woozSellable": false,
             "unknown_48": "",
             "unknown_49": "",
-            "count": 11
+            "count": 99
         },
         {
             "name": "trophy",
@@ -1245,7 +1245,7 @@
             "woozSellable": false,
             "unknown_48": "",
             "unknown_49": "",
-            "count": 4
+            "count": 11
         },
         {
             "name": "putrid",
@@ -1546,7 +1546,7 @@
             "woozSellable": false,
             "unknown_48": "",
             "unknown_49": "",
-            "count": 5
+            "count": 11
         },
         {
             "name": "mistletoe2",
@@ -1589,7 +1589,7 @@
             "woozSellable": false,
             "unknown_48": "",
             "unknown_49": "",
-            "count": 8
+            "count": 9
         },
         {
             "name": "Drink",
@@ -1632,7 +1632,7 @@
             "woozSellable": false,
             "unknown_48": "",
             "unknown_49": "",
-            "count": 0
+            "count": 4
         },
         {
             "name": "Drinking",
@@ -4800,7 +4800,7 @@
             "woozSellable": true,
             "unknown_48": "",
             "unknown_49": "",
-            "count": 415
+            "count": 418
         },
         {
             "name": "fxfactor_halloweenDeluxe_parrot",
@@ -4879,7 +4879,7 @@
             "credentials": "",
             "extraData": "{\"descriptorId\":1520,\"tags\":{\"spell\":[]}}",
             "woozSellable": true,
-            "count": 142
+            "count": 154
         },
         {
             "name": "FunZ_Pizza",
@@ -4915,7 +4915,7 @@
             "credentials": "",
             "extraData": "{\"descriptorId\":1519,\"tags\":{\"spell\":[]}}",
             "woozSellable": true,
-            "count": 63
+            "count": 64
         },
         {
             "name": "FunZ_Pouch_Pouch",
@@ -4952,7 +4952,7 @@
             "credentials": "",
             "extraData": "{\"tags\":{\"spell\":[]}}",
             "woozSellable": true,
-            "count": 454
+            "count": 512
         },
         {
             "name": "Funz_cupCake",
@@ -5068,7 +5068,7 @@
             "credentials": "",
             "extraData": "{\"descriptorId\":1572,\"tags\":{\"spell\":[]}}",
             "woozSellable": true,
-            "count": 87
+            "count": 91
         },
         {
             "name": "Funz_fries",
@@ -5140,7 +5140,7 @@
             "credentials": "",
             "extraData": "{\"descriptorId\":1578,\"tags\":{\"spell\":[]}}",
             "woozSellable": true,
-            "count": 92
+            "count": 93
         },
         {
             "name": "jobGuitarHero",
@@ -5895,7 +5895,7 @@
             "woozSellable": true,
             "unknown_48": "",
             "unknown_49": "",
-            "count": 13
+            "count": 21
         },
         {
             "name": "Petz_monkeyFood_01",
@@ -6055,7 +6055,7 @@
             "credentials": "",
             "extraData": "{\"marketplace\":{\"max_stack_amount\":50},\"petFoodz\":{\"petTypes\":\"bird,summerfest_parrot,chick\",\"portions\":25,\"exp\":5,\"color\":\"14338458,10521425,5917990\"},\"in_shopz\":true,\"tags\":{\"grade_1\":[],\"spell_pet_food\":[],\"spell\":[]},\"reward\":{\"rewards_pack_name\":\"prestige_pet_food\"},\"energy\":{\"energy_cost\":0}}",
             "woozSellable": true,
-            "count": 0
+            "count": 4
         },
         {
             "name": "fxfactor_magic_wand_zap",
@@ -7116,7 +7116,7 @@
             "woozSellable": true,
             "unknown_48": "",
             "unknown_49": "",
-            "count": 0
+            "count": 4
         },
         {
             "name": "Petz_batFood_01",
@@ -7159,7 +7159,7 @@
             "woozSellable": true,
             "unknown_48": "",
             "unknown_49": "",
-            "count": 0
+            "count": 4
         },
         {
             "name": "Petz_wolfFood_01",
@@ -7202,7 +7202,7 @@
             "woozSellable": true,
             "unknown_48": "",
             "unknown_49": "",
-            "count": 2
+            "count": 6
         },
         {
             "name": "Petz_berriesFood_01",
@@ -7246,7 +7246,7 @@
             "woozSellable": true,
             "unknown_48": "",
             "unknown_49": "",
-            "count": 0
+            "count": 7
         },
         {
             "name": "Petz_lynxFood_01",
@@ -7334,7 +7334,7 @@
             "woozSellable": true,
             "unknown_48": "",
             "unknown_49": "",
-            "count": 1
+            "count": 2
         },
         {
             "name": "Petz_steampunkFood_01",
@@ -7634,7 +7634,7 @@
             "woozSellable": true,
             "unknown_48": "",
             "unknown_49": "",
-            "count": 5
+            "count": 11
         },
         {
             "name": "Petz_fliesFood_01",
@@ -9088,7 +9088,7 @@
             "woozSellable": true,
             "unknown_48": "",
             "unknown_49": "",
-            "count": 12
+            "count": 15
         },
         {
             "name": "Petz_batteriesFood_01",
@@ -10092,7 +10092,7 @@
             "woozSellable": true,
             "unknown_48": "",
             "unknown_49": "",
-            "count": 8
+            "count": 23
         },
         {
             "name": "freezeworld_xmasDeco_red_02",
@@ -10732,7 +10732,7 @@
             "credentials": "",
             "extraData": "{\"tags\":{\"xmas_deco\":[]},\"reward\":{\"rewards_pack_name\":\"xmastree2013_decoration_reward_1\"},\"descriptorId\":5958}",
             "woozSellable": true,
-            "count": 9
+            "count": 12
         },
         {
             "name": "freezeworld_xmasDeco_blue_02",
@@ -11478,7 +11478,7 @@
             "credentials": "",
             "extraData": "{\"tags\":{\"xmas_deco\":[]},\"reward\":{\"rewards_pack_name\":\"xmastree2013_decoration_reward_1\"},\"descriptorId\":5978}",
             "woozSellable": true,
-            "count": 74
+            "count": 91
         },
         {
             "name": "freezeworld_xmasDeco_gold_02",
@@ -13206,7 +13206,7 @@
             "credentials": "",
             "extraData": "{\"tags\":{\"spell\":[]},\"descriptorId\":6505}",
             "woozSellable": true,
-            "count": 3028
+            "count": 3451
         },
         {
             "name": "worldCup2014_yellowCard",
