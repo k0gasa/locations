@@ -41,7 +41,7 @@
             "woozSellable": false,
             "unknown_48": "",
             "unknown_49": "",
-            "count": 0
+            "count": 5
         },
         {
             "name": "birthday",
@@ -84,7 +84,7 @@
             "woozSellable": false,
             "unknown_48": "",
             "unknown_49": "",
-            "count": 6
+            "count": 200
         },
         {
             "name": "bomb",
@@ -127,7 +127,7 @@
             "woozSellable": false,
             "unknown_48": "",
             "unknown_49": "",
-            "count": 0
+            "count": 7
         },
         {
             "name": "griffe",
@@ -1245,7 +1245,7 @@
             "woozSellable": false,
             "unknown_48": "",
             "unknown_49": "",
-            "count": 11
+            "count": 12
         },
         {
             "name": "putrid",
@@ -1546,7 +1546,7 @@
             "woozSellable": false,
             "unknown_48": "",
             "unknown_49": "",
-            "count": 11
+            "count": 14
         },
         {
             "name": "mistletoe2",
@@ -1589,7 +1589,7 @@
             "woozSellable": false,
             "unknown_48": "",
             "unknown_49": "",
-            "count": 20
+            "count": 218
         },
         {
             "name": "Drink",
@@ -3136,7 +3136,7 @@
             "woozSellable": false,
             "unknown_48": "",
             "unknown_49": "",
-            "count": 32
+            "count": 33
         },
         {
             "name": "winterGames03_flagLibStreet",
@@ -3222,7 +3222,7 @@
             "woozSellable": true,
             "unknown_48": "",
             "unknown_49": "",
-            "count": 57
+            "count": 464
         },
         {
             "name": "winterGames05_flagMystic",
@@ -3265,7 +3265,7 @@
             "woozSellable": true,
             "unknown_48": "",
             "unknown_49": "",
-            "count": 19
+            "count": 278
         },
         {
             "name": "winterGames06_flagColonyV",
@@ -4800,7 +4800,7 @@
             "woozSellable": true,
             "unknown_48": "",
             "unknown_49": "",
-            "count": 429
+            "count": 444
         },
         {
             "name": "fxfactor_halloweenDeluxe_parrot",
@@ -4879,7 +4879,7 @@
             "credentials": "",
             "extraData": "{\"descriptorId\":1520,\"tags\":{\"spell\":[]}}",
             "woozSellable": true,
-            "count": 238
+            "count": 990
         },
         {
             "name": "FunZ_Pizza",
@@ -4915,7 +4915,7 @@
             "credentials": "",
             "extraData": "{\"descriptorId\":1519,\"tags\":{\"spell\":[]}}",
             "woozSellable": true,
-            "count": 149
+            "count": 350
         },
         {
             "name": "FunZ_Pouch_Pouch",
@@ -4952,7 +4952,7 @@
             "credentials": "",
             "extraData": "{\"tags\":{\"spell\":[]}}",
             "woozSellable": true,
-            "count": 777
+            "count": 2588
         },
         {
             "name": "Funz_cupCake",
@@ -4988,7 +4988,7 @@
             "credentials": "",
             "extraData": "{\"descriptorId\":1529,\"tags\":{\"spell\":[]}}",
             "woozSellable": true,
-            "count": 213
+            "count": 689
         },
         {
             "name": "fxfactor_newyear2011",
@@ -5068,7 +5068,7 @@
             "credentials": "",
             "extraData": "{\"descriptorId\":1572,\"tags\":{\"spell\":[]}}",
             "woozSellable": true,
-            "count": 214
+            "count": 587
         },
         {
             "name": "Funz_fries",
@@ -5104,7 +5104,7 @@
             "credentials": "",
             "extraData": "{\"descriptorId\":1576,\"tags\":{\"spell\":[]}}",
             "woozSellable": true,
-            "count": 627
+            "count": 1229
         },
         {
             "name": "Funz_hotdog",
@@ -5140,7 +5140,7 @@
             "credentials": "",
             "extraData": "{\"descriptorId\":1578,\"tags\":{\"spell\":[]}}",
             "woozSellable": true,
-            "count": 175
+            "count": 856
         },
         {
             "name": "jobGuitarHero",
@@ -5213,7 +5213,7 @@
             "credentials": "",
             "extraData": "{\"descriptorId\":1635,\"tags\":{\"spell\":[]}}",
             "woozSellable": true,
-            "count": 8
+            "count": 9
         },
         {
             "name": "funz_chocolatebar",
@@ -5249,7 +5249,7 @@
             "credentials": "",
             "extraData": "{\"descriptorId\":1634,\"tags\":{\"spell\":[]}}",
             "woozSellable": true,
-            "count": 158
+            "count": 183
         },
         {
             "name": "FunzSpellz_bonbon_01",
@@ -5285,7 +5285,7 @@
             "credentials": "",
             "extraData": "{\"descriptorId\":1641,\"tags\":{\"spell\":[]}}",
             "woozSellable": true,
-            "count": 222
+            "count": 1043
         },
         {
             "name": "fxfactor_iLoveU",
@@ -5633,7 +5633,7 @@
             "woozSellable": false,
             "unknown_48": "",
             "unknown_49": "",
-            "count": 24
+            "count": 148
         },
         {
             "name": "fxfactor_tournis_de_requins",
@@ -6134,7 +6134,7 @@
             "credentials": "",
             "extraData": "{\"descriptorId\":2306,\"tags\":{\"spell\":[]}}",
             "woozSellable": true,
-            "count": 8
+            "count": 22
         },
         {
             "name": "funz_icecream_cup",
@@ -6548,7 +6548,7 @@
             "woozSellable": true,
             "unknown_48": "",
             "unknown_49": "",
-            "count": 1
+            "count": 2
         },
         {
             "name": "Petz_backflip",
@@ -7502,7 +7502,7 @@
             "credentials": "",
             "extraData": "{\"descriptorId\":3088,\"tags\":{\"spell\":[]}}",
             "woozSellable": true,
-            "count": 8
+            "count": 22
         },
         {
             "name": "Funz_ChocolateFounatin",
@@ -7546,7 +7546,7 @@
             "woozSellable": true,
             "unknown_48": "",
             "unknown_49": "",
-            "count": 22
+            "count": 25
         },
         {
             "name": "Funz_WeddingCake",
@@ -9088,7 +9088,7 @@
             "woozSellable": true,
             "unknown_48": "",
             "unknown_49": "",
-            "count": 15
+            "count": 201
         },
         {
             "name": "Petz_batteriesFood_01",
@@ -9132,7 +9132,7 @@
             "woozSellable": true,
             "unknown_48": "",
             "unknown_49": "",
-            "count": 2
+            "count": 4
         },
         {
             "name": "Carnoxole's Ice Attack",
@@ -10092,7 +10092,7 @@
             "woozSellable": true,
             "unknown_48": "",
             "unknown_49": "",
-            "count": 23
+            "count": 169
         },
         {
             "name": "freezeworld_xmasDeco_red_02",
@@ -10732,7 +10732,7 @@
             "credentials": "",
             "extraData": "{\"tags\":{\"xmas_deco\":[]},\"reward\":{\"rewards_pack_name\":\"xmastree2013_decoration_reward_1\"},\"descriptorId\":5958}",
             "woozSellable": true,
-            "count": 12
+            "count": 149
         },
         {
             "name": "freezeworld_xmasDeco_blue_02",
@@ -11102,7 +11102,7 @@
             "credentials": "",
             "extraData": "{\"tags\":{\"xmas_deco\":[]},\"reward\":{\"rewards_pack_name\":\"xmastree2013_decoration_reward_1\"},\"descriptorId\":5968}",
             "woozSellable": true,
-            "count": 43
+            "count": 190
         },
         {
             "name": "freezeworld_xmasDeco_green_02",
@@ -11478,7 +11478,7 @@
             "credentials": "",
             "extraData": "{\"tags\":{\"xmas_deco\":[]},\"reward\":{\"rewards_pack_name\":\"xmastree2013_decoration_reward_1\"},\"descriptorId\":5978}",
             "woozSellable": true,
-            "count": 91
+            "count": 228
         },
         {
             "name": "freezeworld_xmasDeco_gold_02",
@@ -12207,7 +12207,7 @@
             "woozSellable": true,
             "unknown_48": "",
             "unknown_49": "",
-            "count": 111
+            "count": 198
         },
         {
             "name": "seed_greencactus",
@@ -13206,7 +13206,7 @@
             "credentials": "",
             "extraData": "{\"tags\":{\"spell\":[]},\"descriptorId\":6505}",
             "woozSellable": true,
-            "count": 5702
+            "count": 8501
         },
         {
             "name": "worldCup2014_yellowCard",
