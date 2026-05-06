@@ -729,7 +729,7 @@
             "woozSellable": false,
             "unknown_48": "",
             "unknown_49": "",
-            "count": 8
+            "count": 13
         },
         {
             "name": "techno",
@@ -772,7 +772,7 @@
             "woozSellable": false,
             "unknown_48": "",
             "unknown_49": "",
-            "count": 99
+            "count": 129
         },
         {
             "name": "trophy",
@@ -1589,7 +1589,7 @@
             "woozSellable": false,
             "unknown_48": "",
             "unknown_49": "",
-            "count": 9
+            "count": 20
         },
         {
             "name": "Drink",
@@ -4800,7 +4800,7 @@
             "woozSellable": true,
             "unknown_48": "",
             "unknown_49": "",
-            "count": 418
+            "count": 429
         },
         {
             "name": "fxfactor_halloweenDeluxe_parrot",
@@ -4879,7 +4879,7 @@
             "credentials": "",
             "extraData": "{\"descriptorId\":1520,\"tags\":{\"spell\":[]}}",
             "woozSellable": true,
-            "count": 154
+            "count": 238
         },
         {
             "name": "FunZ_Pizza",
@@ -4915,7 +4915,7 @@
             "credentials": "",
             "extraData": "{\"descriptorId\":1519,\"tags\":{\"spell\":[]}}",
             "woozSellable": true,
-            "count": 64
+            "count": 149
         },
         {
             "name": "FunZ_Pouch_Pouch",
@@ -4952,7 +4952,7 @@
             "credentials": "",
             "extraData": "{\"tags\":{\"spell\":[]}}",
             "woozSellable": true,
-            "count": 512
+            "count": 777
         },
         {
             "name": "Funz_cupCake",
@@ -4988,7 +4988,7 @@
             "credentials": "",
             "extraData": "{\"descriptorId\":1529,\"tags\":{\"spell\":[]}}",
             "woozSellable": true,
-            "count": 201
+            "count": 213
         },
         {
             "name": "fxfactor_newyear2011",
@@ -5068,7 +5068,7 @@
             "credentials": "",
             "extraData": "{\"descriptorId\":1572,\"tags\":{\"spell\":[]}}",
             "woozSellable": true,
-            "count": 91
+            "count": 214
         },
         {
             "name": "Funz_fries",
@@ -5104,7 +5104,7 @@
             "credentials": "",
             "extraData": "{\"descriptorId\":1576,\"tags\":{\"spell\":[]}}",
             "woozSellable": true,
-            "count": 440
+            "count": 627
         },
         {
             "name": "Funz_hotdog",
@@ -5140,7 +5140,7 @@
             "credentials": "",
             "extraData": "{\"descriptorId\":1578,\"tags\":{\"spell\":[]}}",
             "woozSellable": true,
-            "count": 93
+            "count": 175
         },
         {
             "name": "jobGuitarHero",
@@ -5249,7 +5249,7 @@
             "credentials": "",
             "extraData": "{\"descriptorId\":1634,\"tags\":{\"spell\":[]}}",
             "woozSellable": true,
-            "count": 136
+            "count": 158
         },
         {
             "name": "FunzSpellz_bonbon_01",
@@ -5285,7 +5285,7 @@
             "credentials": "",
             "extraData": "{\"descriptorId\":1641,\"tags\":{\"spell\":[]}}",
             "woozSellable": true,
-            "count": 137
+            "count": 222
         },
         {
             "name": "fxfactor_iLoveU",
@@ -6134,7 +6134,7 @@
             "credentials": "",
             "extraData": "{\"descriptorId\":2306,\"tags\":{\"spell\":[]}}",
             "woozSellable": true,
-            "count": 7
+            "count": 8
         },
         {
             "name": "funz_icecream_cup",
@@ -6294,7 +6294,7 @@
             "woozSellable": true,
             "unknown_48": "",
             "unknown_49": "",
-            "count": 0
+            "count": 1
         },
         {
             "name": "fxfactor_slush_facex1",
@@ -6548,7 +6548,7 @@
             "woozSellable": true,
             "unknown_48": "",
             "unknown_49": "",
-            "count": 0
+            "count": 1
         },
         {
             "name": "Petz_backflip",
@@ -7246,7 +7246,7 @@
             "woozSellable": true,
             "unknown_48": "",
             "unknown_49": "",
-            "count": 7
+            "count": 15
         },
         {
             "name": "Petz_lynxFood_01",
@@ -7290,7 +7290,7 @@
             "woozSellable": true,
             "unknown_48": "",
             "unknown_49": "",
-            "count": 0
+            "count": 4
         },
         {
             "name": "Petz_polarBearFood_01",
@@ -7465,7 +7465,7 @@
             "woozSellable": true,
             "unknown_48": "",
             "unknown_49": "",
-            "count": 3
+            "count": 4
         },
         {
             "name": "Funz_canapes",
@@ -7546,7 +7546,7 @@
             "woozSellable": true,
             "unknown_48": "",
             "unknown_49": "",
-            "count": 1
+            "count": 22
         },
         {
             "name": "Funz_WeddingCake",
@@ -7590,7 +7590,7 @@
             "woozSellable": true,
             "unknown_48": "",
             "unknown_49": "",
-            "count": 2
+            "count": 20
         },
         {
             "name": "Petz_carrotFood_01",
@@ -7678,7 +7678,7 @@
             "woozSellable": true,
             "unknown_48": "",
             "unknown_49": "",
-            "count": 0
+            "count": 10
         },
         {
             "name": "foodz_rainbowz_pooka_roc_01",
@@ -11102,7 +11102,7 @@
             "credentials": "",
             "extraData": "{\"tags\":{\"xmas_deco\":[]},\"reward\":{\"rewards_pack_name\":\"xmastree2013_decoration_reward_1\"},\"descriptorId\":5968}",
             "woozSellable": true,
-            "count": 37
+            "count": 43
         },
         {
             "name": "freezeworld_xmasDeco_green_02",
@@ -12207,7 +12207,7 @@
             "woozSellable": true,
             "unknown_48": "",
             "unknown_49": "",
-            "count": 97
+            "count": 111
         },
         {
             "name": "seed_greencactus",
@@ -13206,7 +13206,7 @@
             "credentials": "",
             "extraData": "{\"tags\":{\"spell\":[]},\"descriptorId\":6505}",
             "woozSellable": true,
-            "count": 3451
+            "count": 5702
         },
         {
             "name": "worldCup2014_yellowCard",
@@ -15712,7 +15712,7 @@
             "credentials": "",
             "extraData": "{\"petFoodz\":{\"exp\":10,\"petTypes\":\"bear,butterfly\",\"visual\":\"liquid\",\"opacity\":80,\"portions\":25,\"color\":\"15316510,13475606\"},\"tags\":{\"spell_pet_food_legacy\":[],\"spell\":[],\"grade_2\":[],\"spell_pet_food\":[]},\"in_shopz\":true,\"energy\":{\"energy_cost\":0},\"reward\":{\"rewards_pack_name\":\"prestige_pet_food\"},\"marketplace\":{\"max_stack_amount\":50}}",
             "woozSellable": true,
-            "count": 0
+            "count": 2
         },
         {
             "name": "Petz_bearFood_03",
@@ -15748,7 +15748,7 @@
             "credentials": "",
             "extraData": "{\"petFoodz\":{\"exp\":20,\"petTypes\":\"bear,butterfly\",\"visual\":\"liquid\",\"opacity\":80,\"portions\":25,\"color\":\"15316510,13475606\"},\"tags\":{\"spell_pet_food_legacy\":[],\"spell\":[],\"grade_3\":[],\"spell_pet_food\":[]},\"in_shopz\":true,\"energy\":{\"energy_cost\":0},\"reward\":{\"rewards_pack_name\":\"prestige_pet_food\"},\"marketplace\":{\"max_stack_amount\":50}}",
             "woozSellable": true,
-            "count": 0
+            "count": 10
         },
         {
             "name": "Petz_berriesFood_02",
@@ -16188,7 +16188,7 @@
             "credentials": "",
             "extraData": "{\"petFoodz\":{\"exp\":20,\"portions\":25,\"petTypes\":\"dragon,ground_dragon\",\"color\":\"0x5F0B0F,0xEECD03,0x76CEF6\"},\"tags\":{\"spell_pet_food\":[],\"spell\":[],\"spell_pet_food_legacy\":[],\"grade_3\":[]},\"in_shopz\":true,\"energy\":{\"energy_cost\":0},\"reward\":{\"rewards_pack_name\":\"prestige_pet_food\"},\"marketplace\":{\"max_stack_amount\":50}}",
             "woozSellable": true,
-            "count": 0
+            "count": 10
         },
         {
             "name": "Petz_elephantFood_02",
@@ -16556,7 +16556,7 @@
             "credentials": "",
             "extraData": "{\"petFoodz\":{\"exp\":20,\"portions\":25,\"petTypes\":\"hazmat_monkey\",\"color\":\"15856252,967710\"},\"tags\":{\"spell\":[],\"spell_pet_food_legacy\":[],\"spell_pet_food\":[],\"hween_pet\":[],\"woopet_first\":[],\"grade_3\":[]},\"in_shopz\":true,\"energy\":{\"energy_cost\":0},\"reward\":{\"rewards_pack_name\":\"prestige_pet_food\"},\"marketplace\":{\"max_stack_amount\":50}}",
             "woozSellable": true,
-            "count": 0
+            "count": 6
         },
         {
             "name": "Petz_lynxFood_02",
@@ -16702,7 +16702,7 @@
             "credentials": "",
             "extraData": "{\"petFoodz\":{\"color\":\"15856252\",\"exp\":20,\"portions\":25,\"petTypes\":\"monkey,lps_monkey\",\"foodType\":\"food\"},\"tags\":{\"spell\":[],\"grade_3\":[],\"spell_pet_food\":[]},\"in_shopz\":true,\"energy\":{\"energy_cost\":0},\"reward\":{\"rewards_pack_name\":\"prestige_pet_food\"},\"marketplace\":{\"max_stack_amount\":50}}",
             "woozSellable": true,
-            "count": 0
+            "count": 4
         },
         {
             "name": "Petz_pandaFood_02",
@@ -16776,7 +16776,7 @@
             "credentials": "",
             "extraData": "{\"petFoodz\":{\"exp\":20,\"portions\":25,\"petTypes\":\"panda\",\"color\":\"11665303,2659076\"},\"tags\":{\"spell_pet_food\":[],\"spell\":[],\"woopet_first\":[],\"grade_3\":[],\"spell_pet_food_legacy\":[]},\"in_shopz\":true,\"energy\":{\"energy_cost\":0},\"reward\":{\"rewards_pack_name\":\"prestige_pet_food\"},\"marketplace\":{\"max_stack_amount\":50}}",
             "woozSellable": true,
-            "count": 0
+            "count": 10
         },
         {
             "name": "Petz_polarBearFood_02",
@@ -16850,7 +16850,7 @@
             "credentials": "",
             "extraData": "{\"petFoodz\":{\"exp\":20,\"portions\":25,\"petTypes\":\"xmas2011_jay_pet,penguin\",\"color\":\"12709631,10135726,9147544\"},\"tags\":{\"spell_pet_food\":[],\"spell\":[],\"woopet_first\":[],\"grade_3\":[],\"spell_pet_food_legacy\":[]},\"in_shopz\":true,\"energy\":{\"energy_cost\":0},\"reward\":{\"rewards_pack_name\":\"prestige_pet_food\"},\"marketplace\":{\"max_stack_amount\":50}}",
             "woozSellable": true,
-            "count": 0
+            "count": 9
         },
         {
             "name": "Petz_poutineFood_02",
@@ -17068,7 +17068,7 @@
             "credentials": "",
             "extraData": "{\"petFoodz\":{\"exp\":20,\"portions\":25,\"petTypes\":\"unicorn,gwomz,furby,pegasus\",\"color\":\"15951069,383214,6225739\"},\"tags\":{\"spell_pet_food\":[],\"spell\":[],\"spell_pet_food_legacy\":[],\"grade_3\":[]},\"in_shopz\":true,\"energy\":{\"energy_cost\":0},\"reward\":{\"rewards_pack_name\":\"prestige_pet_food\"},\"marketplace\":{\"max_stack_amount\":50}}",
             "woozSellable": true,
-            "count": 0
+            "count": 5
         },
         {
             "name": "Petz_wolfFood_02",
@@ -17212,7 +17212,7 @@
             "credentials": "",
             "extraData": "{\"petFoodz\":{\"exp\":20,\"portions\":25,\"petTypes\":\"zombie_dog\",\"color\":\"14467757,12428948,3711796\"},\"tags\":{\"spell\":[],\"spell_pet_food_legacy\":[],\"spell_pet_food\":[],\"hween_pet\":[],\"woopet_first\":[],\"grade_3\":[]},\"in_shopz\":true,\"energy\":{\"energy_cost\":0},\"reward\":{\"rewards_pack_name\":\"prestige_pet_food\"},\"marketplace\":{\"max_stack_amount\":50}}",
             "woozSellable": true,
-            "count": 0
+            "count": 6
         },
         {
             "name": "petx_seed",
