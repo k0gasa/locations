@@ -405,7 +405,7 @@ const baseContentUrl = `https://${repoOwner}.github.io/${repoName}`;
 function getCurrentColspan() {
   if (currentDatasetType === 'spellz') return 5;
   if (currentDatasetType === 'furnitures') return 8;
-  return 7;
+  return 8;
 }
 
 
@@ -884,6 +884,9 @@ function updateTableHeaders() {
             <th id="isBoundHeader" class="sortable" onclick="sortByIsBound()">
                 isBound <span class="sort-indicator"></span>
             </th>
+            <th id="isReservedHeader" class="sortable" onclick="sortByIsReserved()">
+                isReserved <span class="sort-indicator"></span>
+            </th>
         `;
     }
     // Re-assign header elements after changing innerHTML
@@ -1004,6 +1007,9 @@ function renderTable() {
             </td>
             <td style="text-align: center;">
               ${displayIsBound}
+            </td>
+            <td style="text-align: center;">
+              ${displayIsReserved}
             </td>
           </tr>
         `;
