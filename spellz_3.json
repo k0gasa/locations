@@ -213,7 +213,7 @@
             "woozSellable": false,
             "unknown_48": "",
             "unknown_49": "",
-            "count": 58
+            "count": 59
         },
         {
             "name": "brainThief",
@@ -385,7 +385,7 @@
             "woozSellable": false,
             "unknown_48": "",
             "unknown_49": "",
-            "count": 0
+            "count": 1
         },
         {
             "name": "hearts",
@@ -3136,7 +3136,7 @@
             "woozSellable": false,
             "unknown_48": "",
             "unknown_49": "",
-            "count": 33
+            "count": 129
         },
         {
             "name": "winterGames03_flagLibStreet",
@@ -3222,7 +3222,7 @@
             "woozSellable": true,
             "unknown_48": "",
             "unknown_49": "",
-            "count": 464
+            "count": 723
         },
         {
             "name": "winterGames05_flagMystic",
@@ -3308,7 +3308,7 @@
             "woozSellable": true,
             "unknown_48": "",
             "unknown_49": "",
-            "count": 11
+            "count": 15
         },
         {
             "name": "winterGames07_torchLibStreet",
@@ -4800,7 +4800,7 @@
             "woozSellable": true,
             "unknown_48": "",
             "unknown_49": "",
-            "count": 466
+            "count": 469
         },
         {
             "name": "fxfactor_halloweenDeluxe_parrot",
@@ -4879,7 +4879,7 @@
             "credentials": "",
             "extraData": "{\"descriptorId\":1520,\"tags\":{\"spell\":[]}}",
             "woozSellable": true,
-            "count": 1058
+            "count": 1083
         },
         {
             "name": "FunZ_Pizza",
@@ -4952,7 +4952,7 @@
             "credentials": "",
             "extraData": "{\"tags\":{\"spell\":[]}}",
             "woozSellable": true,
-            "count": 2791
+            "count": 2793
         },
         {
             "name": "Funz_cupCake",
@@ -5104,7 +5104,7 @@
             "credentials": "",
             "extraData": "{\"descriptorId\":1576,\"tags\":{\"spell\":[]}}",
             "woozSellable": true,
-            "count": 1345
+            "count": 1385
         },
         {
             "name": "Funz_hotdog",
@@ -5140,7 +5140,7 @@
             "credentials": "",
             "extraData": "{\"descriptorId\":1578,\"tags\":{\"spell\":[]}}",
             "woozSellable": true,
-            "count": 897
+            "count": 903
         },
         {
             "name": "jobGuitarHero",
@@ -5285,7 +5285,7 @@
             "credentials": "",
             "extraData": "{\"descriptorId\":1641,\"tags\":{\"spell\":[]}}",
             "woozSellable": true,
-            "count": 1099
+            "count": 1109
         },
         {
             "name": "fxfactor_iLoveU",
@@ -10523,7 +10523,7 @@
             "woozSellable": true,
             "unknown_48": "",
             "unknown_49": "",
-            "count": 0
+            "count": 1
         },
         {
             "name": "freezeworld_xmasDeco_11",
@@ -10732,7 +10732,7 @@
             "credentials": "",
             "extraData": "{\"tags\":{\"xmas_deco\":[]},\"reward\":{\"rewards_pack_name\":\"xmastree2013_decoration_reward_1\"},\"descriptorId\":5958}",
             "woozSellable": true,
-            "count": 167
+            "count": 168
         },
         {
             "name": "freezeworld_xmasDeco_blue_02",
@@ -12207,7 +12207,7 @@
             "woozSellable": true,
             "unknown_48": "",
             "unknown_49": "",
-            "count": 209
+            "count": 215
         },
         {
             "name": "seed_greencactus",
@@ -13206,7 +13206,7 @@
             "credentials": "",
             "extraData": "{\"tags\":{\"spell\":[]},\"descriptorId\":6505}",
             "woozSellable": true,
-            "count": 11743
+            "count": 12113
         },
         {
             "name": "worldCup2014_yellowCard",
@@ -14157,7 +14157,7 @@
             "credentials": "",
             "extraData": "{\"tags\":{\"xmas_deco\":[]},\"reward\":{\"rewards_pack_name\":\"xmastree2014_decoration\"},\"descriptorId\":7019}",
             "woozSellable": true,
-            "count": 0
+            "count": 1
         },
         {
             "name": "xmas2014_tinselBlue",
