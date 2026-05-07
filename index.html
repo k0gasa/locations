@@ -347,11 +347,14 @@ body {
           <th id="isBoundHeader" class="sortable" onclick="sortByIsBound()">
             isBound <span class="sort-indicator"></span>
           </th>
+          <th id="isReservedHeader" class="sortable" onclick="sortByIsReserved()">
+            isReserved <span class="sort-indicator"></span>
+          </th>
         </tr>
       </thead>
       <tbody id="itemsContainer">
         <tr>
-          <td colspan="7" class="loading-indicator">Loading available datasets...</td>
+          <td colspan="8" class="loading-indicator">Loading available datasets...</td>
         </tr>  
       </tbody>
     </table>
@@ -371,6 +374,7 @@ const typeFiltersContainer = document.getElementById('typeFilters');
 let countHeader = document.getElementById('countHeader');
 let priceHeader = document.getElementById('priceHeader');
 let isBoundHeader = document.getElementById('isBoundHeader');
+let isReservedHeader = document.getElementById('isReservedHeader');
 
 const ITEMS_PER_PAGE = 4;
 let currentPage = 1;
@@ -396,6 +400,29 @@ const repoName = 'locations';
 const filePath = ''; 
 const baseApiUrl = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${filePath}`;
 const baseContentUrl = `https://${repoOwner}.github.io/${repoName}`;
+
+
+function getCurrentColspan() {
+  if (currentDatasetType === 'spellz') return 5;
+  if (currentDatasetType === 'furnitures') return 8;
+  return 7;
+}
+
+
+function extractDatasetItems(data, datasetType) {
+  if (datasetType === 'spellz') {
+    if (data && typeof data === 'object' && Array.isArray(data.name)) {
+      return data.name;
+    }
+    return null;
+  }
+
+  if (Array.isArray(data)) {
+    return data;
+  }
+
+  return null;
+}
 
 
 window.addEventListener('DOMContentLoaded', () => {
@@ -539,7 +566,7 @@ function loadFirstAvailableDataset() {
     datasetSelector.value = `${firstDataset.type}|${firstDataset.file}`;
     loadSelectedDataset();
   } else {
-    itemsContainer.innerHTML = `<tr><td colspan="7" style="text-align: center; padding: 2rem;">No datasets available.</td></tr>`;
+    itemsContainer.innerHTML = `<tr><td colspan="8" style="text-align: center; padding: 2rem;">No datasets available.</td></tr>`;
   }
 }
 
@@ -551,7 +578,7 @@ function loadSelectedDataset() {
     return;
   }
   
-  const defaultColspan = 7;
+  const defaultColspan = 8;
   itemsContainer.innerHTML = `<tr><td colspan="${defaultColspan}" class="loading-indicator">Loading ${currentDatasetFile}...</td></tr>`;
   
   const [datasetType, datasetFile] = selectedValue.split('|');
@@ -559,7 +586,7 @@ function loadSelectedDataset() {
   currentDatasetFile = datasetFile;
   
   
-  itemsContainer.innerHTML = `<tr><td colspan="${currentDatasetType === 'spellz' ? 5 : 7}" class="loading-indicator">Loading ${datasetFile}...</td></tr>`;
+  itemsContainer.innerHTML = `<tr><td colspan="${getCurrentColspan()}" class="loading-indicator">Loading ${datasetFile}...</td></tr>`;
   
   
   loadData(datasetType, datasetFile);
@@ -577,25 +604,11 @@ function loadData(datasetType, datasetFile) {
       return response.json();
     })
     .then(data => {
-      let rawItemsArray;
+      const rawItemsArray = extractDatasetItems(data, currentDatasetType);
 
-      if (currentDatasetType === 'spellz') {
-        if (data && typeof data === 'object' && Array.isArray(data.name)) {
-          rawItemsArray = data.name;
-        } else {
-          console.error(`Error: For spellz dataset '${currentDatasetFile}', expected an object with a 'name' array. Actual data:`, data);
-          itemsContainer.innerHTML = `<tr><td colspan="5" style="text-align: center; padding: 2rem;">Error: Invalid data format for ${currentDatasetFile}.</td></tr>`;
-          items = []; 
-          filteredItems = []; 
-          paginationContainer.innerHTML = ''; 
-          typeFiltersContainer.innerHTML = '';
-          return; 
-        }
-      } else if (Array.isArray(data)) {
-        rawItemsArray = data;
-      } else {
-        console.error(`Error: For dataset '${currentDatasetFile}', expected an array. Actual data:`, data);
-        itemsContainer.innerHTML = `<tr><td colspan="${currentDatasetType === 'spellz' ? 5 : 7}" style="text-align: center; padding: 2rem;">Error: Invalid data format for ${currentDatasetFile}.</td></tr>`;
+      if (!rawItemsArray) {
+        console.error(`Error: Invalid data format for dataset '${currentDatasetFile}'. Actual data:`, data);
+        itemsContainer.innerHTML = `<tr><td colspan="${getCurrentColspan()}" style="text-align: center; padding: 2rem;">Error: Invalid data format for ${currentDatasetFile}.</td></tr>`;
         items = []; 
         filteredItems = []; 
         paginationContainer.innerHTML = ''; 
@@ -615,7 +628,7 @@ function loadData(datasetType, datasetFile) {
       console.error(`Error loading ${datasetFile}:`, error);
       items = []; 
       filteredItems = [];
-      itemsContainer.innerHTML = `<tr><td colspan="${currentDatasetType === 'spellz' ? 5 : 7}" style="text-align: center; padding: 2rem;">Error loading data file: ${datasetFile}</td></tr>`;
+      itemsContainer.innerHTML = `<tr><td colspan="${getCurrentColspan()}" style="text-align: center; padding: 2rem;">Error loading data file: ${datasetFile}</td></tr>`;
       paginationContainer.innerHTML = '';
       typeFiltersContainer.innerHTML = '';
     });
@@ -740,6 +753,18 @@ function sortByIsBound() {
     renderTable();
 }
 
+function sortByIsReserved() {
+    if (sortColumn === 'isReserved') {
+        sortDirection = sortDirection === 'asc' ? 'desc' : 'asc';
+    } else {
+        sortColumn = 'isReserved';
+        sortDirection = 'asc';
+    }
+    applySort();
+    currentPage = 1;
+    renderTable();
+}
+
 function applySort() {
     if (!sortColumn) return; 
 
@@ -770,6 +795,10 @@ function applySort() {
             valA = a.ownerBound === true ? 1 : 0;
             valB = b.ownerBound === true ? 1 : 0;
             return sortDirection === 'asc' ? valA - valB : valB - valA;
+        } else if (sortColumn === 'isReserved') {
+            valA = a.isReserved === true ? 1 : 0;
+            valB = b.isReserved === true ? 1 : 0;
+            return sortDirection === 'asc' ? valA - valB : valB - valA;
         }
         
         return 0; 
@@ -780,7 +809,7 @@ function applySort() {
 
 function updateSortIndicators() {
     
-    [countHeader, priceHeader, isBoundHeader].forEach(header => {
+    [countHeader, priceHeader, isBoundHeader, isReservedHeader].forEach(header => {
         if(header) { 
             header.classList.remove('sort-asc', 'sort-desc');
         }
@@ -794,6 +823,8 @@ function updateSortIndicators() {
         activeHeader = priceHeader;
     } else if (sortColumn === 'isBound') {
         activeHeader = isBoundHeader;
+    } else if (sortColumn === 'isReserved') {
+        activeHeader = isReservedHeader;
     }
 
     
@@ -819,6 +850,25 @@ function updateTableHeaders() {
                 Count <span class="sort-indicator"></span>
             </th>
         `;
+    } else if (currentDatasetType === 'furnitures') {
+        thead.innerHTML = `
+            <th>Image</th>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Type</th>
+            <th id="countHeader" class="sortable" onclick="sortByCount()">
+                Count <span class="sort-indicator"></span>
+            </th>
+            <th id="priceHeader" class="sortable" onclick="sortByPrice()">
+                MP Price <span class="sort-indicator"></span>
+            </th>
+            <th id="isBoundHeader" class="sortable" onclick="sortByIsBound()">
+                isBound <span class="sort-indicator"></span>
+            </th>
+            <th id="isReservedHeader" class="sortable" onclick="sortByIsReserved()">
+                isReserved <span class="sort-indicator"></span>
+            </th>
+        `;
     } else {
         thead.innerHTML = `
             <th>Image</th>
@@ -840,6 +890,7 @@ function updateTableHeaders() {
     countHeader = document.getElementById('countHeader');
     priceHeader = document.getElementById('priceHeader');
     isBoundHeader = document.getElementById('isBoundHeader');
+    isReservedHeader = document.getElementById('isReservedHeader');
     updateSortIndicators();
 }
 
@@ -882,6 +933,46 @@ function renderTable() {
                              ? item.price.toLocaleString() 
                              : 'N/A';                     
         const displayIsBound = item.ownerBound === true ? 'TRUE' : 'FALSE';
+        const displayIsReserved = item.isReserved === true ? 'TRUE' : 'FALSE';
+
+        if (currentDatasetType === 'furnitures') {
+        return `
+          <tr>
+            <td style="text-align: center;">
+              <div style="width: 80px; height: 80px; display: flex; align-items: center; justify-content: center; margin: 0 auto;">
+                <img
+                  src="${item.thumbnailSd || ''}"
+                  alt="${item.title || 'Item'} preview"
+                  class="table-image"
+                  style="opacity: 0; transition: opacity 0.3s ease;"
+                  onload="this.style.opacity = '1'"
+                  loading="lazy"
+                  onerror="this.style.opacity='1'; this.alt='Image load error'; this.src='';" 
+                >
+              </div>
+            </td>
+            <td style="text-align: center;">${item.id || ''}</td>
+            <td style="text-align: center;">${item.title || ''}</td>
+            <td style="text-align: center;">
+              <span class="type-badge">
+                ${displayType}
+              </span>
+            </td>
+            <td style="text-align: center;">
+              ${displayCount.toLocaleString()}
+            </td>
+            <td style="text-align: center;">
+              ${displayPrice}
+            </td>
+            <td style="text-align: center;">
+              ${displayIsBound}
+            </td>
+            <td style="text-align: center;">
+              ${displayIsReserved}
+            </td>
+          </tr>
+        `;
+        }
 
         return `
           <tr>
@@ -920,7 +1011,7 @@ function renderTable() {
   };
 
   if (paginatedItems.length === 0) {
-      const colspan = currentDatasetType === 'spellz' ? 5 : 7;
+      const colspan = getCurrentColspan();
       itemsContainer.innerHTML = `<tr><td colspan="${colspan}" style="text-align: center; padding: 2rem;">No items match the current filters.</td></tr>`;
   } else {
       itemsContainer.innerHTML = paginatedItems.map(createTableRow).join('');
