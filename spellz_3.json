@@ -3265,7 +3265,7 @@
             "woozSellable": true,
             "unknown_48": "",
             "unknown_49": "",
-            "count": 4082
+            "count": 4089
         },
         {
             "name": "winterGames06_flagColonyV",
@@ -3308,7 +3308,7 @@
             "woozSellable": true,
             "unknown_48": "",
             "unknown_49": "",
-            "count": 3827
+            "count": 3828
         },
         {
             "name": "winterGames07_torchLibStreet",
@@ -4800,7 +4800,7 @@
             "woozSellable": true,
             "unknown_48": "",
             "unknown_49": "",
-            "count": 1303
+            "count": 1338
         },
         {
             "name": "fxfactor_halloweenDeluxe_parrot",
@@ -4915,7 +4915,7 @@
             "credentials": "",
             "extraData": "{\"descriptorId\":1519,\"tags\":{\"spell\":[]}}",
             "woozSellable": true,
-            "count": 1059
+            "count": 1067
         },
         {
             "name": "FunZ_Pouch_Pouch",
@@ -4952,7 +4952,7 @@
             "credentials": "",
             "extraData": "{\"tags\":{\"spell\":[]}}",
             "woozSellable": true,
-            "count": 4318
+            "count": 4330
         },
         {
             "name": "Funz_cupCake",
@@ -5104,7 +5104,7 @@
             "credentials": "",
             "extraData": "{\"descriptorId\":1576,\"tags\":{\"spell\":[]}}",
             "woozSellable": true,
-            "count": 1727
+            "count": 1749
         },
         {
             "name": "Funz_hotdog",
@@ -5140,7 +5140,7 @@
             "credentials": "",
             "extraData": "{\"descriptorId\":1578,\"tags\":{\"spell\":[]}}",
             "woozSellable": true,
-            "count": 1108
+            "count": 1116
         },
         {
             "name": "jobGuitarHero",
@@ -5249,7 +5249,7 @@
             "credentials": "",
             "extraData": "{\"descriptorId\":1634,\"tags\":{\"spell\":[]}}",
             "woozSellable": true,
-            "count": 532
+            "count": 562
         },
         {
             "name": "FunzSpellz_bonbon_01",
