@@ -41,7 +41,7 @@
             "woozSellable": false,
             "unknown_48": "",
             "unknown_49": "",
-            "count": 2673
+            "count": 2680
         },
         {
             "name": "birthday",
@@ -84,7 +84,7 @@
             "woozSellable": false,
             "unknown_48": "",
             "unknown_49": "",
-            "count": 2500
+            "count": 2948
         },
         {
             "name": "bomb",
@@ -127,7 +127,7 @@
             "woozSellable": false,
             "unknown_48": "",
             "unknown_49": "",
-            "count": 2444
+            "count": 2746
         },
         {
             "name": "griffe",
@@ -213,7 +213,7 @@
             "woozSellable": false,
             "unknown_48": "",
             "unknown_49": "",
-            "count": 2055
+            "count": 2090
         },
         {
             "name": "brainThief",
@@ -428,7 +428,7 @@
             "woozSellable": false,
             "unknown_48": "",
             "unknown_49": "",
-            "count": 1948
+            "count": 1958
         },
         {
             "name": "poof",
@@ -643,7 +643,7 @@
             "woozSellable": false,
             "unknown_48": "",
             "unknown_49": "",
-            "count": 2288
+            "count": 2306
         },
         {
             "name": "stinky",
@@ -686,7 +686,7 @@
             "woozSellable": false,
             "unknown_48": "",
             "unknown_49": "",
-            "count": 2452
+            "count": 2476
         },
         {
             "name": "talkToHand",
@@ -729,7 +729,7 @@
             "woozSellable": false,
             "unknown_48": "",
             "unknown_49": "",
-            "count": 2021
+            "count": 2035
         },
         {
             "name": "techno",
@@ -772,7 +772,7 @@
             "woozSellable": false,
             "unknown_48": "",
             "unknown_49": "",
-            "count": 1167
+            "count": 1673
         },
         {
             "name": "trophy",
@@ -1245,7 +1245,7 @@
             "woozSellable": false,
             "unknown_48": "",
             "unknown_49": "",
-            "count": 2418
+            "count": 2492
         },
         {
             "name": "putrid",
@@ -1288,7 +1288,7 @@
             "woozSellable": false,
             "unknown_48": "",
             "unknown_49": "",
-            "count": 2019
+            "count": 2025
         },
         {
             "name": "reminder",
@@ -1546,7 +1546,7 @@
             "woozSellable": false,
             "unknown_48": "",
             "unknown_49": "",
-            "count": 3185
+            "count": 3274
         },
         {
             "name": "mistletoe2",
@@ -3093,7 +3093,7 @@
             "woozSellable": false,
             "unknown_48": "",
             "unknown_49": "",
-            "count": 1419
+            "count": 1430
         },
         {
             "name": "winterGames02_snowfall",
@@ -3136,7 +3136,7 @@
             "woozSellable": false,
             "unknown_48": "",
             "unknown_49": "",
-            "count": 736
+            "count": 739
         },
         {
             "name": "winterGames03_flagLibStreet",
@@ -3179,7 +3179,7 @@
             "woozSellable": true,
             "unknown_48": "",
             "unknown_49": "",
-            "count": 1624
+            "count": 2166
         },
         {
             "name": "winterGames04_flagCortoza",
@@ -3222,7 +3222,7 @@
             "woozSellable": true,
             "unknown_48": "",
             "unknown_49": "",
-            "count": 4536
+            "count": 4800
         },
         {
             "name": "winterGames05_flagMystic",
@@ -3265,7 +3265,7 @@
             "woozSellable": true,
             "unknown_48": "",
             "unknown_49": "",
-            "count": 3601
+            "count": 4077
         },
         {
             "name": "winterGames06_flagColonyV",
@@ -3308,7 +3308,7 @@
             "woozSellable": true,
             "unknown_48": "",
             "unknown_49": "",
-            "count": 3590
+            "count": 3817
         },
         {
             "name": "winterGames07_torchLibStreet",
@@ -4800,7 +4800,7 @@
             "woozSellable": true,
             "unknown_48": "",
             "unknown_49": "",
-            "count": 958
+            "count": 1172
         },
         {
             "name": "fxfactor_halloweenDeluxe_parrot",
@@ -4952,7 +4952,7 @@
             "credentials": "",
             "extraData": "{\"tags\":{\"spell\":[]}}",
             "woozSellable": true,
-            "count": 4232
+            "count": 4318
         },
         {
             "name": "Funz_cupCake",
