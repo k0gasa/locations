@@ -84,7 +84,7 @@
             "woozSellable": false,
             "unknown_48": "",
             "unknown_49": "",
-            "count": 2967
+            "count": 2970
         },
         {
             "name": "bomb",
@@ -127,7 +127,7 @@
             "woozSellable": false,
             "unknown_48": "",
             "unknown_49": "",
-            "count": 2747
+            "count": 2752
         },
         {
             "name": "griffe",
@@ -213,7 +213,7 @@
             "woozSellable": false,
             "unknown_48": "",
             "unknown_49": "",
-            "count": 2125
+            "count": 2143
         },
         {
             "name": "brainThief",
@@ -600,7 +600,7 @@
             "woozSellable": false,
             "unknown_48": "",
             "unknown_49": "",
-            "count": 202
+            "count": 203
         },
         {
             "name": "stars",
@@ -643,7 +643,7 @@
             "woozSellable": false,
             "unknown_48": "",
             "unknown_49": "",
-            "count": 2314
+            "count": 2326
         },
         {
             "name": "stinky",
@@ -686,7 +686,7 @@
             "woozSellable": false,
             "unknown_48": "",
             "unknown_49": "",
-            "count": 2496
+            "count": 2501
         },
         {
             "name": "talkToHand",
@@ -772,7 +772,7 @@
             "woozSellable": false,
             "unknown_48": "",
             "unknown_49": "",
-            "count": 1685
+            "count": 1692
         },
         {
             "name": "trophy",
@@ -1546,7 +1546,7 @@
             "woozSellable": false,
             "unknown_48": "",
             "unknown_49": "",
-            "count": 3274
+            "count": 3279
         },
         {
             "name": "mistletoe2",
@@ -1589,7 +1589,7 @@
             "woozSellable": false,
             "unknown_48": "",
             "unknown_49": "",
-            "count": 2376
+            "count": 2381
         },
         {
             "name": "Drink",
@@ -1761,7 +1761,7 @@
             "woozSellable": false,
             "unknown_48": "",
             "unknown_49": "",
-            "count": 37
+            "count": 38
         },
         {
             "name": "New Year 2",
@@ -3136,7 +3136,7 @@
             "woozSellable": false,
             "unknown_48": "",
             "unknown_49": "",
-            "count": 747
+            "count": 764
         },
         {
             "name": "winterGames03_flagLibStreet",
@@ -3179,7 +3179,7 @@
             "woozSellable": true,
             "unknown_48": "",
             "unknown_49": "",
-            "count": 2172
+            "count": 2180
         },
         {
             "name": "winterGames04_flagCortoza",
@@ -3222,7 +3222,7 @@
             "woozSellable": true,
             "unknown_48": "",
             "unknown_49": "",
-            "count": 4805
+            "count": 4819
         },
         {
             "name": "winterGames05_flagMystic",
@@ -3265,7 +3265,7 @@
             "woozSellable": true,
             "unknown_48": "",
             "unknown_49": "",
-            "count": 4089
+            "count": 4165
         },
         {
             "name": "winterGames06_flagColonyV",
@@ -3308,7 +3308,7 @@
             "woozSellable": true,
             "unknown_48": "",
             "unknown_49": "",
-            "count": 3828
+            "count": 3847
         },
         {
             "name": "winterGames07_torchLibStreet",
@@ -4628,7 +4628,7 @@
             "woozSellable": true,
             "unknown_48": "",
             "unknown_49": "",
-            "count": 0
+            "count": 9
         },
         {
             "name": "fxfactor_halloween_pumpkin",
@@ -4800,7 +4800,7 @@
             "woozSellable": true,
             "unknown_48": "",
             "unknown_49": "",
-            "count": 1338
+            "count": 1350
         },
         {
             "name": "fxfactor_halloweenDeluxe_parrot",
@@ -4879,7 +4879,7 @@
             "credentials": "",
             "extraData": "{\"descriptorId\":1520,\"tags\":{\"spell\":[]}}",
             "woozSellable": true,
-            "count": 1477
+            "count": 1554
         },
         {
             "name": "FunZ_Pizza",
@@ -4915,7 +4915,7 @@
             "credentials": "",
             "extraData": "{\"descriptorId\":1519,\"tags\":{\"spell\":[]}}",
             "woozSellable": true,
-            "count": 1067
+            "count": 1069
         },
         {
             "name": "FunZ_Pouch_Pouch",
@@ -5104,7 +5104,7 @@
             "credentials": "",
             "extraData": "{\"descriptorId\":1576,\"tags\":{\"spell\":[]}}",
             "woozSellable": true,
-            "count": 1749
+            "count": 2024
         },
         {
             "name": "Funz_hotdog",
@@ -5140,7 +5140,7 @@
             "credentials": "",
             "extraData": "{\"descriptorId\":1578,\"tags\":{\"spell\":[]}}",
             "woozSellable": true,
-            "count": 1116
+            "count": 1117
         },
         {
             "name": "jobGuitarHero",
@@ -5285,7 +5285,7 @@
             "credentials": "",
             "extraData": "{\"descriptorId\":1641,\"tags\":{\"spell\":[]}}",
             "woozSellable": true,
-            "count": 1623
+            "count": 1753
         },
         {
             "name": "fxfactor_iLoveU",
@@ -5633,7 +5633,7 @@
             "woozSellable": false,
             "unknown_48": "",
             "unknown_49": "",
-            "count": 338
+            "count": 341
         },
         {
             "name": "fxfactor_tournis_de_requins",
@@ -9088,7 +9088,7 @@
             "woozSellable": true,
             "unknown_48": "",
             "unknown_49": "",
-            "count": 217
+            "count": 220
         },
         {
             "name": "Petz_batteriesFood_01",
@@ -9132,7 +9132,7 @@
             "woozSellable": true,
             "unknown_48": "",
             "unknown_49": "",
-            "count": 5
+            "count": 6
         },
         {
             "name": "Carnoxole's Ice Attack",
