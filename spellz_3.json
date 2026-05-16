@@ -84,7 +84,7 @@
             "woozSellable": false,
             "unknown_48": "",
             "unknown_49": "",
-            "count": 2970
+            "count": 2983
         },
         {
             "name": "bomb",
@@ -127,7 +127,7 @@
             "woozSellable": false,
             "unknown_48": "",
             "unknown_49": "",
-            "count": 2752
+            "count": 2809
         },
         {
             "name": "griffe",
@@ -428,7 +428,7 @@
             "woozSellable": false,
             "unknown_48": "",
             "unknown_49": "",
-            "count": 1968
+            "count": 1969
         },
         {
             "name": "poof",
@@ -686,7 +686,7 @@
             "woozSellable": false,
             "unknown_48": "",
             "unknown_49": "",
-            "count": 2501
+            "count": 2518
         },
         {
             "name": "talkToHand",
@@ -1589,7 +1589,7 @@
             "woozSellable": false,
             "unknown_48": "",
             "unknown_49": "",
-            "count": 2381
+            "count": 2399
         },
         {
             "name": "Drink",
@@ -3222,7 +3222,7 @@
             "woozSellable": true,
             "unknown_48": "",
             "unknown_49": "",
-            "count": 4819
+            "count": 4828
         },
         {
             "name": "winterGames05_flagMystic",
@@ -3265,7 +3265,7 @@
             "woozSellable": true,
             "unknown_48": "",
             "unknown_49": "",
-            "count": 4165
+            "count": 4169
         },
         {
             "name": "winterGames06_flagColonyV",
@@ -4800,7 +4800,7 @@
             "woozSellable": true,
             "unknown_48": "",
             "unknown_49": "",
-            "count": 1350
+            "count": 1372
         },
         {
             "name": "fxfactor_halloweenDeluxe_parrot",
@@ -4952,7 +4952,7 @@
             "credentials": "",
             "extraData": "{\"tags\":{\"spell\":[]}}",
             "woozSellable": true,
-            "count": 4330
+            "count": 4347
         },
         {
             "name": "Funz_cupCake",
@@ -5104,7 +5104,7 @@
             "credentials": "",
             "extraData": "{\"descriptorId\":1576,\"tags\":{\"spell\":[]}}",
             "woozSellable": true,
-            "count": 2024
+            "count": 2087
         },
         {
             "name": "Funz_hotdog",
@@ -5213,7 +5213,7 @@
             "credentials": "",
             "extraData": "{\"descriptorId\":1635,\"tags\":{\"spell\":[]}}",
             "woozSellable": true,
-            "count": 73
+            "count": 74
         },
         {
             "name": "funz_chocolatebar",
@@ -9088,7 +9088,7 @@
             "woozSellable": true,
             "unknown_48": "",
             "unknown_49": "",
-            "count": 220
+            "count": 222
         },
         {
             "name": "Petz_batteriesFood_01",
